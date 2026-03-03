@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reanimal Strats</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: linear-gradient(0deg, rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url("https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2129530/ss_38b37a96a6ddfc818b32780ef42affeea6b40ef4.1920x1080.jpg?t=1729520908");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #eaeef2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .back-button {
+            align-self: flex-start;
+            margin-bottom: 10px;
+            color: #8b98a9;
+            text-decoration: none;
+            font-size: 0.9rem;
+            padding: 5px 15px;
+            border-radius: 40px;
+            background-color: #0f1217;
+            border: 1px solid #1f2b36;
+            transition: all 0.2s;
+        }
+        .back-button:hover {
+            background-color: #1a2533;
+            color: #ffffff;
+        }
+
+        h1 {
+            font-weight: 400;
+            font-size: 3rem;
+            letter-spacing: 8px;
+            margin: 10px 0 30px 0;
+            color: #ffffff;
+            text-align: center;
+            border-bottom: 1px solid #1e2a3a;
+            padding-bottom: 15px;
+            width: 100%;
+        }
+
+        /* ========== ГОРИЗОНТАЛЬНЫЙ СКРОЛЛЕР ========== */
+        .scroll-container {
+            width: 100%;
+            max-width: 1200px;
+            overflow-x: auto;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+            scrollbar-width: thin;
+            scrollbar-color: #1e3b5c #0a0f15;
+        }
+        .scroll-container::-webkit-scrollbar {
+            height: 8px;
+        }
+        .scroll-container::-webkit-scrollbar-track {
+            background: #0a0f15;
+            border-radius: 10px;
+        }
+        .scroll-container::-webkit-scrollbar-thumb {
+            background: #1e3b5c;
+            border-radius: 10px;
+        }
+        .scroll-container::-webkit-scrollbar-thumb:hover {
+            background: #2a4b70;
+        }
+
+        .video-grid {
+            display: flex;
+            gap: 20px;
+            padding: 10px 5px;
+        }
+
+        .video-card {
+            flex: 0 0 280px;
+            background-color: #0f141c;
+            border: 1px solid #1f2b36;
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        }
+        .video-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: #1e3b5c;
+            box-shadow: 0 15px 30px rgba(30, 59, 92, 0.5);
+        }
+
+        .video-thumbnail {
+            width: 100%;
+            height: 160px;
+            background-color: #1a2535;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #8b98a9;
+            font-size: 0.9rem;
+            border-bottom: 1px solid #1f2b36;
+            background-size: cover;
+            background-position: center;
+        }
+        /* Заглушки для превью */
+        .thumb1 { background-image: linear-gradient(45deg, #1e3b5c, #0f141c); }
+        .thumb2 { background-image: linear-gradient(135deg, #2a4b70, #0f141c); }
+        .thumb3 { background-image: linear-gradient(225deg, #1e3b5c, #16212e); }
+        .thumb4 { background-image: linear-gradient(315deg, #2a4b70, #0f141c); }
+        .thumb5 { background-image: linear-gradient(45deg, #1e3b5c, #1a2535); }
+
+        .video-info {
+            padding: 15px;
+            text-align: left;
+        }
+        .video-title {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #ffffff;
+            margin-bottom: 5px;
+        }
+        .video-meta {
+            font-size: 0.8rem;
+            color: #8b98a9;
+        }
+
+        /* Полоса прогресса скролла */
+        .scroll-progress {
+            width: 100%;
+            max-width: 1200px;
+            height: 3px;
+            background-color: #0f1217;
+            border-radius: 3px;
+            margin-top: 10px;
+            position: relative;
+        }
+        .scroll-progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #1e3b5c, #4a7a9c);
+            border-radius: 3px;
+            transition: width 0.1s;
+        }
+
+        /* ========== МОДАЛЬНОЕ ОКНО ========== */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.95);
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        .modal.active {
+            display: flex;
+        }
+        .modal-content {
+            background-color: #0f141c;
+            border: 1px solid #1e3b5c;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 800px;
+            width: 90%;
+            position: relative;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.8);
+        }
+        .close-btn {
+            position: absolute;
+            top: 15px; right: 20px;
+            font-size: 28px;
+            color: #8b98a9;
+            cursor: pointer;
+            transition: color 0.2s;
+            z-index: 1001;
+        }
+        .close-btn:hover {
+            color: #ffffff;
+        }
+        
+        /* Контейнер для видео */
+        .modal-video-container {
+            width: 100%;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            aspect-ratio: 16 / 9;
+            background-color: #1a2535;
+            position: relative;
+        }
+        
+        .modal-video-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        
+        /* Заглушка для видео */
+        .video-fallback {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #1a2535, #0f141c);
+            color: #8b98a9;
+            flex-direction: column;
+            gap: 10px;
+            text-align: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        
+        .video-fallback .emoji {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+        
+        .video-fallback .video-url {
+            font-size: 0.8rem;
+            color: #4a6b8a;
+            word-break: break-all;
+            max-width: 100%;
+        }
+        
+        .video-fallback .hint {
+            font-size: 0.8rem;
+            color: #6a7a8c;
+            margin-top: 15px;
+        }
+        
+        .modal-description {
+            border-top: 1px solid #1f2b36;
+            padding-top: 20px;
+        }
+        .modal-description p {
+            margin: 8px 0;
+            color: #b7c9e0;
+        }
+        .modal-description strong {
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-button">← Back to Hub</a>
+    <h1>STRATS</h1>
+
+    <div class="scroll-container" id="scrollContainer">
+        <div class="video-grid">
+            <!-- Карточки видео -->
+            <div class="video-card" 
+                 data-title="Whale Skip" 
+                 data-by="MythicCheese" 
+                 data-timesave="~5:00" 
+                 data-difficulty="7/10"
+                 data-video="https://www.youtube.com/embed/hb68caod3mc?si=01zn0WZMAG1eh3wd">
+                <div class="video-thumbnail thumb1"></div>
+                <div class="video-info">
+                    <div class="video-title">Whale Skip</div>
+                    <div class="video-meta">By: MythicCheese • ~5:00 save</div>
+                </div>
+            </div>
+            <div class="video-card" 
+                 data-title="Mother Skip" 
+                 data-by="MythicCheese" 
+                 data-timesave="1 min 24s" 
+                 data-difficulty="5/10"
+                 data-video="https://www.youtube.com/embed/X9ivyaBUnRg?si=eQIn8q6uIfNfH124">
+                <div class="video-thumbnail thumb2"></div>
+                <div class="video-info">
+                    <div class="video-title">Mother Skip</div>
+                    <div class="video-meta">By: MythicCheese • 1:24 save</div>
+                </div>
+            </div>
+            <div class="video-card" 
+                 data-title="Train Cutscene Skip" 
+                 data-by="Qurin" 
+                 data-timesave="16 seconds" 
+                 data-difficulty="4/10"
+                 data-video="https://www.youtube.com/embed/Rkc5tyk7X4o?si=D5vRv76f_EUqSZFZ">
+                <div class="video-thumbnail thumb3"></div>
+                <div class="video-info">
+                    <div class="video-title">Train Cutscene Skip</div>
+                    <div class="video-meta">By: Qurin • 0:16 save</div>
+                </div>
+            </div>
+            <div class="video-card" 
+                 data-title="Boltcutter Flight Fence Skip" 
+                 data-by="Rato & MythicCheese" 
+                 data-timesave="2 seconds" 
+                 data-difficulty="3/10"
+                 data-video="https://www.youtube.com/embed/W2tCb1YLbeg?si=hkOqmqXEDJalHGF7">
+                <div class="video-thumbnail thumb4"></div>
+                <div class="video-info">
+                    <div class="video-title">Boltcutter Flight Fence Skip</div>
+                    <div class="video-meta">By: Rato & MythicCheese • 0:02 save</div>
+                </div>
+            </div>
+            <div class="video-card" 
+                 data-title="Bazzoka Skip" 
+                 data-by="Tots" 
+                 data-timesave="15 seconds" 
+                 data-difficulty="5/10"
+                 data-video="https://www.youtube.com/embed/7waY2Psd-oc?si=_xZUk1KguSPR2TZ0">
+                <div class="video-thumbnail thumb5"></div>
+                <div class="video-info">
+                    <div class="video-title">Bazooka Skip</div>
+                    <div class="video-meta">By: Tots • 0:15 save</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Полоса прогресса -->
+    <div class="scroll-progress">
+        <div class="scroll-progress-bar" id="scrollProgressBar"></div>
+    </div>
+
+    <!-- Модальное окно -->
+    <div class="modal" id="videoModal">
+        <div class="modal-content">
+            <span class="close-btn" id="closeModal">&times;</span>
+            <div class="modal-video-container" id="modalVideoContainer">
+                <iframe id="youtubePlayer" 
+                        src="" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen
+                        style="border: none;">
+                </iframe>
+                <!-- Заглушка будет показываться, если iframe не загрузится -->
+            </div>
+            <div class="modal-description" id="modalDescription">
+                <p><strong>By:</strong> <span id="modalBy"></span></p>
+                <p><strong>Timesave:</strong> <span id="modalTimesave"></span></p>
+                <p><strong>Difficulty:</strong> <span id="modalDifficulty"></span></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Скролл и прогресс
+        const container = document.getElementById('scrollContainer');
+        const progressBar = document.getElementById('scrollProgressBar');
+
+        function updateScrollProgress() {
+            const scrollLeft = container.scrollLeft;
+            const scrollWidth = container.scrollWidth - container.clientWidth;
+            const progress = (scrollLeft / scrollWidth) * 100;
+            progressBar.style.width = progress + '%';
+        }
+
+        container.addEventListener('scroll', updateScrollProgress);
+        window.addEventListener('resize', updateScrollProgress);
+        updateScrollProgress();
+
+        // Модальное окно с видео
+        const modal = document.getElementById('videoModal');
+        const closeBtn = document.getElementById('closeModal');
+        const modalBy = document.getElementById('modalBy');
+        const modalTimesave = document.getElementById('modalTimesave');
+        const modalDifficulty = document.getElementById('modalDifficulty');
+        const youtubePlayer = document.getElementById('youtubePlayer');
+        const modalVideoContainer = document.getElementById('modalVideoContainer');
+        
+        // Функция проверки, является ли текущий хост локальным
+        function isLocalEnvironment() {
+            const hostname = window.location.hostname;
+            return hostname === 'localhost' || 
+                   hostname === '127.0.0.1' || 
+                   hostname === '' ||
+                   window.location.protocol === 'file:';
+        }
+
+        // Функция для создания заглушки
+        function showFallback(videoUrl, title) {
+            youtubePlayer.style.display = 'none';
+            
+            // Проверяем, нет ли уже заглушки
+            let fallback = document.querySelector('.video-fallback');
+            if (!fallback) {
+                fallback = document.createElement('div');
+                fallback.className = 'video-fallback';
+                modalVideoContainer.appendChild(fallback);
+            }
+            
+            fallback.innerHTML = `
+                <div class="emoji">🎬</div>
+                <div style="font-weight: bold;">${title}</div>
+                <div class="video-url">${videoUrl || 'No video URL'}</div>
+                <div class="hint">${isLocalEnvironment() ? 'Видео будет доступно после публикации на хостинге' : 'Видео временно недоступно'}</div>
+            `;
+        }
+
+        // Функция для скрытия заглушки и показа iframe
+        function hideFallback() {
+            const fallback = document.querySelector('.video-fallback');
+            if (fallback) {
+                fallback.remove();
+            }
+            youtubePlayer.style.display = 'block';
+        }
+
+        // Обработчик клика по карточке
+        document.querySelectorAll('.video-card').forEach(card => {
+            card.addEventListener('click', () => {
+                const videoUrl = card.dataset.video;
+                const title = card.dataset.title || 'Strategy';
+                const by = card.dataset.by || 'Unknown';
+                const timesave = card.dataset.timesave || 'N/A';
+                const difficulty = card.dataset.difficulty || 'N/A';
+                
+                // Заполняем описание
+                modalBy.textContent = by;
+                modalTimesave.textContent = timesave;
+                modalDifficulty.textContent = difficulty;
+                
+                // Пытаемся загрузить видео
+                if (videoUrl) {
+                    // Проверяем, правильный ли формат ссылки
+                    if (!videoUrl.includes('/embed/')) {
+                        console.warn('Видео ссылка должна быть в формате embed');
+                    }
+                    
+                    // Показываем iframe и убираем заглушку
+                    hideFallback();
+                    youtubePlayer.src = videoUrl;
+                    
+                    // Обработчик ошибки загрузки iframe
+                    youtubePlayer.onerror = function() {
+                        showFallback(videoUrl, title);
+                    };
+                    
+                    // Таймаут на случай, если iframe не загружается
+                    setTimeout(() => {
+                        // Проверяем, загрузилось ли видео (эвристика)
+                        try {
+                            // Если iframe не имеет содержимого или произошла ошибка
+                            const iframeDocument = youtubePlayer.contentDocument || youtubePlayer.contentWindow?.document;
+                            if (iframeDocument && iframeDocument.body && iframeDocument.body.innerHTML === '') {
+                                showFallback(videoUrl, title);
+                            }
+                        } catch (e) {
+                            // Из-за CORS мы не можем проверить содержимое, поэтому просто показываем
+                            // Заглушку только в локальной среде
+                            if (isLocalEnvironment()) {
+                                showFallback(videoUrl, title);
+                            }
+                        }
+                    }, 2000);
+                } else {
+                    showFallback(null, title);
+                }
+                
+                modal.classList.add('active');
+            });
+        });
+
+        // Закрытие модального окна
+        closeBtn.addEventListener('click', () => {
+            youtubePlayer.src = ''; // Останавливаем видео
+            hideFallback(); // Убираем заглушку
+            modal.classList.remove('active');
+        });
+
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                youtubePlayer.src = '';
+                hideFallback();
+                modal.classList.remove('active');
+            }
+        });
+        
+        // При загрузке страницы проверяем окружение
+        console.log('Environment:', isLocalEnvironment() ? 'Local' : 'Published');
+    </script>
+</body>
+</html>

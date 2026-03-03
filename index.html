@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reanimal Speedrunning Hub</title>
+    <style>
+       
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: linear-gradient(0deg, rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url("https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2129530/ss_38b37a96a6ddfc818b32780ef42affeea6b40ef4.1920x1080.jpg?t=1729520908");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #eaeef2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        h1 {
+            font-weight: 400;
+            font-size: 3rem;
+            letter-spacing: 4px;
+            margin: 0 0 40px 0;
+            color: #ffffff;
+            border-bottom: 1px solid #1e2a3a;
+            padding-bottom: 15px;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(-20px);
+            animation: fadeInDown 0.8s ease forwards;
+        }
+
+        @keyframes fadeInDown {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        
+        .menu-grid {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 1000px;
+        }
+
+        .menu-item {
+            background-color: #0f1217;
+            border: 1px solid #1f2b36;
+            border-radius: 20px;
+            padding: 30px 40px;
+            text-align: center;
+            text-decoration: none;
+            color: #eaeef2;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+            flex: 1 1 250px;
+            opacity: 0;
+            animation: fadeInUp 0.6s ease forwards;
+            animation-delay: 0.2s;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .menu-item:nth-child(2) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .menu-item:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: #1e3b5c;
+            box-shadow: 0 15px 30px rgba(30, 59, 92, 0.4);
+            background-color: #1a2535;
+        }
+
+        .menu-item .main-text {
+            font-size: 2.2rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+            color: #ffffff;
+            margin-bottom: 5px;
+        }
+
+        .menu-item .sub-text {
+            font-size: 0.9rem;
+            color: #8b98a9;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: color 0.2s;
+        }
+
+        .menu-item:hover .sub-text {
+            color: #b7c9e0;
+        }
+
+        
+        .menu-item::after {
+            content: '';
+            display: block;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #1e3b5c, transparent);
+            transition: width 0.3s;
+            margin-top: 15px;
+        }
+
+        .menu-item:hover::after {
+            width: 80%;
+        }
+
+        
+        .footer-note {
+            margin-top: 60px;
+            font-size: 0.8rem;
+            color: #6a7a8c;
+            opacity: 0;
+            animation: fadeIn 1s ease forwards;
+            animation-delay: 0.6s;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <h1>REANIMAL SPEEDRUNNING</h1>
+
+    <div class="menu-grid">
+        
+        <a href="toplist.html" class="menu-item">
+            <span class="main-text">Top List</span>
+            <span class="sub-text">Leaderboards</span>
+        </a>
+
+        
+        <a href="strats.html" class="menu-item">
+            <span class="main-text">Strats</span>
+            <span class="sub-sub-text">(test)</span>
+        </a>
+
+</body>
+</html>

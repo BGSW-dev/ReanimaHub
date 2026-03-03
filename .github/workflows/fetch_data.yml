@@ -1,0 +1,35 @@
+# Путь: .github/workflows/fetch_data.yml
+
+name: Fetch Speedrun Data
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'   # каждые 6 часов автоматически
+  workflow_dispatch:          # кнопка "запустить вручную" 
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install deps
+        run: pip install requests
+
+      - name: Run fetcher
+        run: python fetch_data.py
+
+      - name: Commit & push data files
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add main_game.csv metadata.json
+          git diff --cached --quiet || git commit -m "chore: update speedrun data"
+          git push

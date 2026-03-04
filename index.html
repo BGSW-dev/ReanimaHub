@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reanimal Speedrunning Hub</title>
     <style>
-       
         body {
             margin: 0;
             padding: 20px;
@@ -37,13 +36,9 @@
         }
 
         @keyframes fadeInDown {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        
         .menu-grid {
             display: flex;
             gap: 30px;
@@ -72,19 +67,9 @@
             align-items: center;
         }
 
-        .menu-item:nth-child(2) {
-            animation-delay: 0.4s;
-        }
-
         @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(30px); }
+            to   { opacity: 1; transform: translateY(0); }
         }
 
         .menu-item:hover {
@@ -110,11 +95,8 @@
             transition: color 0.2s;
         }
 
-        .menu-item:hover .sub-text {
-            color: #b7c9e0;
-        }
+        .menu-item:hover .sub-text { color: #b7c9e0; }
 
-        
         .menu-item::after {
             content: '';
             display: block;
@@ -125,40 +107,17 @@
             margin-top: 15px;
         }
 
-        .menu-item:hover::after {
-            width: 80%;
-        }
-
-        
-        .footer-note {
-            margin-top: 60px;
-            font-size: 0.8rem;
-            color: #6a7a8c;
-            opacity: 0;
-            animation: fadeIn 1s ease forwards;
-            animation-delay: 0.6s;
-        }
-
-        @keyframes fadeIn {
-            to { opacity: 1; }
-        }
+        .menu-item:hover::after { width: 80%; }
     </style>
 </head>
 <body>
     <h1>REANIMAL SPEEDRUNNING</h1>
 
     <div class="menu-grid">
-        
         <a href="toplist.html" class="menu-item">
             <span class="main-text">Top List</span>
             <span class="sub-text">Leaderboards</span>
         </a>
-
-        
-        <a href="strats.html" class="menu-item">
-            <span class="main-text">Strats</span>
-            <span class="sub-sub-text">(test)</span>
-        </a>
-
+    </div>
 </body>
 </html>

@@ -148,6 +148,7 @@
         // репо
         const BASE = "https://raw.githubusercontent.com/BGSW-dev/ReanimaHub/main";
         const FALLBACK_AVATAR = "https://www.speedrun.com/images/user.png";
+function imgErr(el) { el.onerror=null; el.src=FALLBACK_AVATAR; }
 
         let currentTab   = "main";
         let compareMode  = false;
@@ -172,7 +173,8 @@
         function parseCSV(text) {
             return text.trim().split("\n").slice(1).map(line => {
                 const c = line.split(",");
-                return {rank:Number(c[0]),player:c[1],points:Number(c[2]),avatar:c.slice(3).join(",").trim()};
+                const avatar = c.slice(3).join(",").trim().replace(/^http:\/\//,"https://");
+                return {rank:Number(c[0]),player:c[1],points:Number(c[2]),avatar};
             });
         }
 
@@ -203,7 +205,7 @@
                 return `<tr data-player="${p.player.replace(/"/g,'&quot;')}" data-points="${p.points}" data-avatar="${(p.avatar||"").replace(/"/g,'&quot;')}">
                     ${chk}
                     <td class="rank-column ${rankClass(p.rank)}">${p.rank}</td>
-                    <td><div class="avatar-cell"><img class="avatar" src="${p.avatar||FALLBACK_AVATAR}" onerror="this.src='${FALLBACK_AVATAR}'"></div></td>
+                    <td><div class="avatar-cell"><img class="avatar" src="${p.avatar||FALLBACK_AVATAR}" onerror="imgErr(this)"></div></td>
                     <td>${p.player}</td>
                     <td class="${p.rank===1?"points-gold":""}">${p.points}</td>
                 </tr>`;
@@ -215,7 +217,7 @@
             const rows = data.map(p => `
                 <tr>
                     <td class="rank-column ${rankClass(p.rank)}">${p.rank}</td>
-                    <td><div style="display:flex;gap:5px">${p.avatars.map(a=>`<img class="avatar" style="width:36px;height:36px" src="${a||FALLBACK_AVATAR}" onerror="this.src='${FALLBACK_AVATAR}'">`).join("")}</div></td>
+                    <td><div style="display:flex;gap:5px">${p.avatars.map(a=>`<img class="avatar" style="width:36px;height:36px" src="${a||FALLBACK_AVATAR}" onerror="imgErr(this)">`).join("")}</div></td>
                     <td>${p.players.join(" <span style='color:#9aaec5'>•</span> ")}</td>
                     <td>${p.points}</td>
                 </tr>`).join("");
@@ -233,7 +235,7 @@
                     </div>`).join("")
                 : '<div style="color:#6a7a8c;font-size:.85rem">No data</div>';
             return `<div class="compare-card">
-                <img class="c-avatar" src="${p.avatar||FALLBACK_AVATAR}" onerror="this.src='${FALLBACK_AVATAR}'">
+                <img class="c-avatar" src="${p.avatar||FALLBACK_AVATAR}" onerror="imgErr(this)">
                 <div class="c-name">${p.name}</div>
                 <div class="c-points">${p.points} pts</div>
                 <div class="c-achievements"><div class="c-ach-title">Achievements</div>${achHtml}</div>
@@ -282,7 +284,7 @@
                 : '<div class="tooltip-empty">No achievements</div>';
             tooltipEl.innerHTML = `
                 <div class="tooltip-header">
-                    <img class="tooltip-avatar" src="${avatar||FALLBACK_AVATAR}" onerror="this.src='${FALLBACK_AVATAR}'">
+                    <img class="tooltip-avatar" src="${avatar||FALLBACK_AVATAR}" onerror="imgErr(this)">
                     <div><div class="tooltip-name">${player}</div><div class="tooltip-points">${points} pts</div></div>
                 </div>
                 <div class="tooltip-divider"></div>

@@ -6,109 +6,99 @@
     <title>Reanimal Top Lists</title>
     <style>
         body {
-            margin: 0; padding: 20px;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background: linear-gradient(0deg,rgba(0,0,0,0.7),rgba(0,0,0,0.7)),url("https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2129530/ss_38b37a96a6ddfc818b32780ef42affeea6b40ef4.1920x1080.jpg?t=1729520908");
-            background-size: cover; background-position: center; background-attachment: fixed;
-            color: #eaeef2; display: flex; flex-direction: column; align-items: center; min-height: 100vh;
+            margin:0;padding:20px;
+            font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+            background:linear-gradient(0deg,rgba(0,0,0,0.7),rgba(0,0,0,0.7)),url("https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2129530/ss_38b37a96a6ddfc818b32780ef42affeea6b40ef4.1920x1080.jpg?t=1729520908");
+            background-size:cover;background-position:center;background-attachment:fixed;
+            color:#eaeef2;display:flex;flex-direction:column;align-items:center;min-height:100vh;
         }
-        h1 { font-weight:400;font-size:2.2rem;letter-spacing:2px;margin:0 0 10px;color:#fff;border-bottom:1px solid #1e2a3a;padding-bottom:10px;text-align:center;width:100%; }
-        .back-button { align-self:flex-start;margin-bottom:10px;color:#8b98a9;text-decoration:none;font-size:.9rem;padding:5px 15px;border-radius:40px;background:#0f1217;border:1px solid #1f2b36;transition:all .2s; }
-        .back-button:hover { background:#1a2533;color:#fff; }
-        .controls-row { width:100%;max-width:1000px;display:flex;justify-content:space-between;align-items:center;margin-bottom:25px; }
-        .tabs { display:flex;gap:2px;background:#0f1217;padding:4px;border-radius:40px;border:1px solid #1f2b36; }
-        .tab { background:transparent;border:none;color:#8b98a9;font-size:1rem;font-weight:500;padding:10px 32px;border-radius:40px;cursor:pointer;transition:all .2s;letter-spacing:.3px; }
-        .tab:hover { color:#fff;background:#1a2533; }
-        .tab.active { background:#1e3b5c;color:#fff; }
-        .table-container { width:100%;max-width:1000px;height:600px;overflow-y:auto;background:#0f1217;border:1px solid #1f2b36;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.8); }
-        table { width:100%;border-collapse:collapse;font-size:1rem;color:#dde3ea; }
-        thead th { position:sticky;top:0;background:#0b0f14;color:#9aaec5;font-weight:500;font-size:.9rem;text-transform:uppercase;letter-spacing:.5px;padding:16px 10px;border-bottom:1px solid #2a3745;text-align:left;backdrop-filter:blur(4px); }
-        tbody td { padding:14px 10px;border-bottom:1px solid #1b2430;vertical-align:middle; }
-        tbody tr { transition:all .2s; }
-        tbody tr:nth-child(odd) { background:#0f141c; }
-        tbody tr:nth-child(even) { background:#0b1017; }
-        tbody tr:hover { background:#16212e;transform:scale(1.01);box-shadow:0 4px 12px rgba(0,0,0,.5); }
-        .rank-column { width:50px;text-align:center;font-weight:700;font-size:1.1rem;color:#b7c9e0; }
-        .rank-1 { color:#ffd966;font-size:1.2rem; }
-        .rank-2 { color:#c0c0c0; }
-        .rank-3 { color:#cd7f32; }
-        .avatar { width:44px;height:44px;border-radius:50%;object-fit:cover;border:1.5px solid #2a3b4e;transition:all .2s; }
-        tr:hover .avatar { border-color:#4a6b8a;transform:rotate(2deg) scale(1.05); }
-        .avatar-cell { display:flex;align-items:center;gap:10px; }
-        td:nth-child(2) { padding-right:0; }
-        td:nth-child(3) { padding-left:0;font-weight:400;color:#f0f4fa; }
-        th:nth-child(2) { padding-right:0; }
-        th:nth-child(3) { padding-left:0; }
-        td:last-child { text-align:right;padding-right:25px;font-weight:500;color:#b7c9e0; }
-        th:last-child { text-align:right;padding-right:25px; }
-        .points-gold { color:#ffd966;font-weight:700; }
-        .loading { text-align:center;padding:40px;color:#6a7a8c;font-size:1rem; }
-        .update-footer { width:100%;max-width:1000px;margin-top:20px;text-align:right;font-size:.8rem;color:#6a7a8c;border-top:1px solid #1f2b36;padding-top:10px; }
-        .update-footer span { color:#9aaec5;font-weight:500; }
-        .table-container::-webkit-scrollbar { width:8px; }
-        .table-container::-webkit-scrollbar-track { background:#0a0f15; }
-        .table-container::-webkit-scrollbar-thumb { background:#263544;border-radius:10px; }
-        .table-container::-webkit-scrollbar-thumb:hover { background:#32475b; }
+        h1{font-weight:400;font-size:2.2rem;letter-spacing:2px;margin:0 0 10px;color:#fff;border-bottom:1px solid #1e2a3a;padding-bottom:10px;text-align:center;width:100%;}
+        .back-button{align-self:flex-start;margin-bottom:10px;color:#8b98a9;text-decoration:none;font-size:.9rem;padding:5px 15px;border-radius:40px;background:#0f1217;border:1px solid #1f2b36;transition:all .2s;}
+        .back-button:hover{background:#1a2533;color:#fff;}
+        .controls-row{width:100%;max-width:1000px;display:flex;justify-content:space-between;align-items:center;margin-bottom:25px;}
+        .tabs{display:flex;gap:2px;background:#0f1217;padding:4px;border-radius:40px;border:1px solid #1f2b36;}
+        .tab{background:transparent;border:none;color:#8b98a9;font-size:1rem;font-weight:500;padding:10px 32px;border-radius:40px;cursor:pointer;transition:all .2s;letter-spacing:.3px;}
+        .tab:hover{color:#fff;background:#1a2533;}
+        .tab.active{background:#1e3b5c;color:#fff;}
+        .table-container{width:100%;max-width:1000px;height:600px;overflow-y:auto;background:#0f1217;border:1px solid #1f2b36;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.8);}
+        table{width:100%;border-collapse:collapse;font-size:1rem;color:#dde3ea;}
+        thead th{position:sticky;top:0;background:#0b0f14;color:#9aaec5;font-weight:500;font-size:.9rem;text-transform:uppercase;letter-spacing:.5px;padding:16px 10px;border-bottom:1px solid #2a3745;text-align:left;backdrop-filter:blur(4px);}
+        tbody td{padding:14px 10px;border-bottom:1px solid #1b2430;vertical-align:middle;}
+        tbody tr{transition:all .2s;}
+        tbody tr:nth-child(odd){background:#0f141c;}
+        tbody tr:nth-child(even){background:#0b1017;}
+        tbody tr:hover{background:#16212e;transform:scale(1.01);box-shadow:0 4px 12px rgba(0,0,0,.5);}
+        .rank-column{width:50px;text-align:center;font-weight:700;font-size:1.1rem;color:#b7c9e0;}
+        .rank-1{color:#ffd966;font-size:1.2rem;}
+        .rank-2{color:#c0c0c0;}
+        .rank-3{color:#cd7f32;}
+        .avatar{width:44px;height:44px;border-radius:50%;object-fit:cover;border:1.5px solid #2a3b4e;transition:all .2s;}
+        tr:hover .avatar{border-color:#4a6b8a;transform:rotate(2deg) scale(1.05);}
+        .avatar-cell{display:flex;align-items:center;gap:10px;}
+        td:nth-child(2){padding-right:0;}td:nth-child(3){padding-left:0;font-weight:400;color:#f0f4fa;}
+        th:nth-child(2){padding-right:0;}th:nth-child(3){padding-left:0;}
+        td:last-child{text-align:right;padding-right:25px;font-weight:500;color:#b7c9e0;}
+        th:last-child{text-align:right;padding-right:25px;}
+        .points-gold{color:#ffd966;font-weight:700;}
+        .loading{text-align:center;padding:40px;color:#6a7a8c;font-size:1rem;}
+        .update-footer{width:100%;max-width:1000px;margin-top:20px;text-align:right;font-size:.8rem;color:#6a7a8c;border-top:1px solid #1f2b36;padding-top:10px;}
+        .update-footer span{color:#9aaec5;font-weight:500;}
+        .table-container::-webkit-scrollbar{width:8px;}
+        .table-container::-webkit-scrollbar-track{background:#0a0f15;}
+        .table-container::-webkit-scrollbar-thumb{background:#263544;border-radius:10px;}
+        .table-container::-webkit-scrollbar-thumb:hover{background:#32475b;}
 
-        /* ── Tooltip ── */
-        .tooltip {
-            position:fixed;z-index:50;pointer-events:none;
-            background:#0b1017;border:1px solid #2a3b4e;border-radius:12px;
-            padding:12px 16px;min-width:200px;max-width:260px;
-            box-shadow:0 8px 24px rgba(0,0,0,.7);
-            opacity:0;transform:translateY(6px);
-            transition:opacity .15s ease, transform .15s ease;
-        }
-        .tooltip.visible { opacity:1;transform:translateY(0); }
-        .tooltip-header { display:flex;align-items:center;gap:10px;margin-bottom:10px; }
-        .tooltip-avatar { width:36px;height:36px;border-radius:50%;object-fit:cover;border:1.5px solid #2a3b4e; }
-        .tooltip-name { font-size:.95rem;font-weight:500;color:#fff; }
-        .tooltip-points { font-size:.8rem;color:#9aaec5; }
-        .tooltip-divider { height:1px;background:#1b2430;margin-bottom:8px; }
-        .tooltip-ach-title { font-size:.7rem;text-transform:uppercase;letter-spacing:1.5px;color:#6a7a8c;margin-bottom:6px; }
-        .tooltip-ach-item { display:flex;justify-content:space-between;font-size:.82rem;padding:3px 0; }
-        .tooltip-ach-cat { color:#c0ccd8; }
-        .tooltip-ach-place { font-weight:600;color:#4a8abf; }
-        .tooltip-ach-place.wr { color:#ffd966; }
-        .tooltip-empty { font-size:.82rem;color:#6a7a8c; }
+        /* Tooltip */
+        .tooltip{position:fixed;z-index:50;pointer-events:none;background:#0b1017;border:1px solid #2a3b4e;border-radius:12px;padding:12px 16px;min-width:200px;max-width:260px;box-shadow:0 8px 24px rgba(0,0,0,.7);opacity:0;transform:translateY(6px);transition:opacity .15s ease,transform .15s ease;}
+        .tooltip.visible{opacity:1;transform:translateY(0);}
+        .tooltip-header{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+        .tooltip-avatar{width:36px;height:36px;border-radius:50%;object-fit:cover;border:1.5px solid #2a3b4e;}
+        .tooltip-name{font-size:.95rem;font-weight:500;color:#fff;}
+        .tooltip-points{font-size:.8rem;color:#9aaec5;}
+        .tooltip-divider{height:1px;background:#1b2430;margin-bottom:8px;}
+        .tooltip-ach-title{font-size:.7rem;text-transform:uppercase;letter-spacing:1.5px;color:#6a7a8c;margin-bottom:6px;}
+        .tooltip-ach-item{display:flex;justify-content:space-between;font-size:.82rem;padding:3px 0;}
+        .tooltip-ach-cat{color:#c0ccd8;}
+        .tooltip-ach-place{font-weight:600;color:#4a8abf;}
+        .tooltip-ach-place.wr{color:#ffd966;}
+        .tooltip-empty{font-size:.82rem;color:#6a7a8c;}
 
-        /* ── Compare button ── */
-        .compare-toggle { display:flex;align-items:center;gap:8px;cursor:pointer;user-select:none;color:#8b98a9;font-size:.9rem;transition:color .2s; }
-        .compare-toggle:hover { color:#fff; }
-        .compare-toggle input[type=checkbox] { display:none; }
-        .compare-box { width:18px;height:18px;border:2px solid #2a3b4e;border-radius:4px;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0; }
-        .compare-toggle.active .compare-box { background:#1e3b5c;border-color:#4a8abf; }
-        .compare-toggle.active { color:#b7c9e0; }
-        .compare-box svg { display:none; }
-        .compare-toggle.active .compare-box svg { display:block; }
+        /* Compare button */
+        .compare-toggle{display:flex;align-items:center;gap:8px;cursor:pointer;user-select:none;color:#8b98a9;font-size:.9rem;transition:color .2s;}
+        .compare-toggle:hover{color:#fff;}
+        .compare-box{width:18px;height:18px;border:2px solid #2a3b4e;border-radius:4px;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0;}
+        .compare-toggle.active .compare-box{background:#1e3b5c;border-color:#4a8abf;}
+        .compare-toggle.active{color:#b7c9e0;}
+        .compare-box svg{display:none;}
+        .compare-toggle.active .compare-box svg{display:block;}
 
-        /* ── Row checkboxes ── */
-        .row-check-cell { width:36px;padding-left:12px !important; }
-        .row-checkbox { width:18px;height:18px;border:2px solid #2a3b4e;border-radius:4px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0; }
-        .row-checkbox.checked { background:#1e3b5c;border-color:#4a8abf; }
-        .row-checkbox svg { display:none; }
-        .row-checkbox.checked svg { display:block; }
-        .row-checkbox.disabled { opacity:.3;cursor:not-allowed; }
+        /* Row checkboxes */
+        .row-check-cell{width:36px;padding-left:12px !important;}
+        .row-checkbox{width:18px;height:18px;border:2px solid #2a3b4e;border-radius:4px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0;}
+        .row-checkbox.checked{background:#1e3b5c;border-color:#4a8abf;}
+        .row-checkbox svg{display:none;}
+        .row-checkbox.checked svg{display:block;}
+        .row-checkbox.disabled{opacity:.3;cursor:not-allowed;}
 
-        /* ── Compare modal ── */
-        .compare-overlay { display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:100;align-items:center;justify-content:center;backdrop-filter:blur(4px); }
-        .compare-overlay.visible { display:flex; }
-        .compare-modal { background:#0f1217;border:1px solid #1f2b36;border-radius:20px;padding:30px;max-width:700px;width:90%;max-height:90vh;overflow-y:auto;position:relative; }
-        .compare-close { position:absolute;top:16px;right:20px;background:none;border:none;color:#6a7a8c;font-size:1.4rem;cursor:pointer;transition:color .2s;line-height:1; }
-        .compare-close:hover { color:#fff; }
-        .compare-title { text-align:center;font-size:1rem;color:#6a7a8c;text-transform:uppercase;letter-spacing:2px;margin-bottom:24px; }
-        .compare-cards { display:flex;gap:20px;justify-content:center;flex-wrap:wrap; }
-        .compare-card { background:#0b1017;border:1px solid #1f2b36;border-radius:16px;padding:24px;flex:1 1 240px;max-width:280px;display:flex;flex-direction:column;align-items:center;gap:12px; }
-        .compare-card .c-avatar { width:72px;height:72px;border-radius:50%;object-fit:cover;border:2px solid #2a3b4e; }
-        .compare-card .c-name { font-size:1.1rem;font-weight:500;color:#fff;text-align:center; }
-        .compare-card .c-points { font-size:.85rem;color:#9aaec5;background:#131a24;padding:4px 14px;border-radius:20px; }
-        .compare-card .c-achievements { width:100%;margin-top:4px; }
-        .compare-card .c-ach-title { font-size:.75rem;text-transform:uppercase;letter-spacing:1.5px;color:#6a7a8c;margin-bottom:8px; }
-        .c-ach-item { display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid #1b2430;font-size:.85rem; }
-        .c-ach-item:last-child { border-bottom:none; }
-        .c-ach-cat { color:#dde3ea; }
-        .c-ach-place { font-weight:600;color:#4a8abf; }
-        .c-ach-place.wr { color:#ffd966; }
+        /* Compare modal */
+        .compare-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:100;align-items:center;justify-content:center;backdrop-filter:blur(4px);}
+        .compare-overlay.visible{display:flex;}
+        .compare-modal{background:#0f1217;border:1px solid #1f2b36;border-radius:20px;padding:30px;max-width:700px;width:90%;max-height:90vh;overflow-y:auto;position:relative;}
+        .compare-close{position:absolute;top:16px;right:20px;background:none;border:none;color:#6a7a8c;font-size:1.4rem;cursor:pointer;transition:color .2s;line-height:1;}
+        .compare-close:hover{color:#fff;}
+        .compare-title{text-align:center;font-size:1rem;color:#6a7a8c;text-transform:uppercase;letter-spacing:2px;margin-bottom:24px;}
+        .compare-cards{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;}
+        .compare-card{background:#0b1017;border:1px solid #1f2b36;border-radius:16px;padding:24px;flex:1 1 240px;max-width:280px;display:flex;flex-direction:column;align-items:center;gap:12px;}
+        .compare-card .c-avatar{width:72px;height:72px;border-radius:50%;object-fit:cover;border:2px solid #2a3b4e;}
+        .compare-card .c-name{font-size:1.1rem;font-weight:500;color:#fff;text-align:center;}
+        .compare-card .c-points{font-size:.85rem;color:#9aaec5;background:#131a24;padding:4px 14px;border-radius:20px;}
+        .compare-card .c-achievements{width:100%;margin-top:4px;}
+        .compare-card .c-ach-title{font-size:.75rem;text-transform:uppercase;letter-spacing:1.5px;color:#6a7a8c;margin-bottom:8px;}
+        .c-ach-item{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid #1b2430;font-size:.85rem;}
+        .c-ach-item:last-child{border-bottom:none;}
+        .c-ach-cat{color:#dde3ea;}
+        .c-ach-place{font-weight:600;color:#4a8abf;}
+        .c-ach-place.wr{color:#ffd966;}
     </style>
 </head>
 <body>
@@ -144,10 +134,8 @@
         <a href="https://www.speedrun.com/reanimal" target="_blank" style="color:#4a5a6a;text-decoration:none;transition:color .2s;" onmouseover="this.style.color='#9aaec5'" onmouseout="this.style.color='#4a5a6a'">SRC</a>
     </div>
 
-    <!-- Tooltip -->
     <div class="tooltip" id="tooltip"></div>
 
-    <!-- Compare modal -->
     <div class="compare-overlay" id="compareOverlay">
         <div class="compare-modal">
             <button class="compare-close" id="compareClose">✕</button>
@@ -157,158 +145,171 @@
     </div>
 
     <script>
-
+        // репо
         const BASE = "https://raw.githubusercontent.com/BGSW-dev/ReanimaHub/main";
-
         const FALLBACK_AVATAR = "https://www.speedrun.com/images/user.png";
 
-        let compareMode = false;
-        let selectedPlayers = []; // [{name, points, avatar}]
-        let achievements = {};    // загружается из achievements.json
-        let mainGameData = [];    // кешируем данные
+        let currentTab   = "main";
+        let compareMode  = false;
+        let selectedPlayers = [];
+        let achievements = {};
+        let mainGameData = [];
+        let dataLoaded   = false;
+        let isLoading    = false;
 
-        // Парсит CSV файл в массив объектов
-        function parseCSV(text) {
-            const lines = text.trim().split("\n").slice(1);
-            return lines.map(line => {
-                const cols = line.split(",");
-                return {
-                    rank:   Number(cols[0]),
-                    player: cols[1],
-                    points: Number(cols[2]),
-                    avatar: cols.slice(3).join(",").trim()
-                };
-            });
-        }
-
-        // Форматирует место: 1 → WR, 2+ → Top-2
-        function formatPlace(place) {
-            return place === 1 ? "WR" : `Top-${place}`;
-        }
-
-        // Строит карточку сравнения
-        function buildCompareCard(player) {
-            const ach = achievements[player.name] || {};
-            const achEntries = Object.entries(ach)
-                .sort((a, b) => a[1] - b[1]) // сортируем по месту
-                .map(([cat, place]) => `
-                    <div class="c-ach-item">
-                        <span class="c-ach-cat">${cat}</span>
-                        <span class="c-ach-place ${place===1?'wr':''}">${formatPlace(place)}</span>
-                    </div>`).join("");
-
-            return `
-                <div class="compare-card">
-                    <img class="c-avatar" src="${player.avatar || FALLBACK_AVATAR}" onerror="this.src='${FALLBACK_AVATAR}'">
-                    <div class="c-name">${player.name}</div>
-                    <div class="c-points">${player.points} pts</div>
-                    <div class="c-achievements">
-                        <div class="c-ach-title">Achievements</div>
-                        ${achEntries || '<div style="color:#6a7a8c;font-size:.85rem">No data</div>'}
-                    </div>
-                </div>`;
-        }
-
-        function showCompareModal() {
-            document.getElementById("compareCards").innerHTML =
-                selectedPlayers.map(buildCompareCard).join("");
-            document.getElementById("compareOverlay").classList.add("visible");
-        }
-
-        function closeCompareModal() {
-            document.getElementById("compareOverlay").classList.remove("visible");
-        }
-
-        // Переключает выбор игрока в режиме сравнения
-        function togglePlayerSelect(name, points, avatar, checkEl) {
-            const idx = selectedPlayers.findIndex(p => p.name === name);
-            if (idx !== -1) {
-                selectedPlayers.splice(idx, 1);
-                checkEl.classList.remove("checked");
-            } else {
-                if (selectedPlayers.length >= 2) return;
-                selectedPlayers.push({name, points, avatar});
-                checkEl.classList.add("checked");
-                if (selectedPlayers.length === 2) showCompareModal();
-            }
-            // Блокируем остальные если уже 2 выбрано
-            document.querySelectorAll(".row-checkbox").forEach(el => {
-                const isSelected = selectedPlayers.some(p => p.name === el.dataset.player);
-                el.classList.toggle("disabled", selectedPlayers.length >= 2 && !isSelected);
-            });
-        }
-
-        // DEMO и COOP 
+        // ── Demo / Coop data ─────────────────────────────────────────
         const DEMO_DATA = [
-            {rank:1, player:"WORK IN PROGRESS", points:150, avatar:""},
-            {rank:2, player:"WORK IN PROGRESS", points:105, avatar:""},
-            {rank:3, player:"WORK IN PROGRESS", points:75,  avatar:""},
+            {rank:1,player:"WORK IN PROGRESS",points:150,avatar:""},
+            {rank:2,player:"WORK IN PROGRESS",points:105,avatar:""},
+            {rank:3,player:"WORK IN PROGRESS",points:75, avatar:""},
         ];
-
         const COOP_DATA = [
-            {rank:1, players:["WORK IN PROGRESS"], points:150, avatars:["",""]},
-            {rank:2, players:["WORK IN PROGRESS"], points:105, avatars:["",""]},
+            {rank:1,players:["WORK IN PROGRESS"],points:150,avatars:["",""]},
+            {rank:2,players:["WORK IN PROGRESS"],points:105,avatars:["",""]},
         ];
 
-        let currentTab = "main";
-
-        function rankClass(rank) {
-            if (rank === 1) return "rank-1";
-            if (rank === 2) return "rank-2";
-            if (rank === 3) return "rank-3";
-            return "";
+        // ── Helpers ──────────────────────────────────────────────────
+        function parseCSV(text) {
+            return text.trim().split("\n").slice(1).map(line => {
+                const c = line.split(",");
+                return {rank:Number(c[0]),player:c[1],points:Number(c[2]),avatar:c.slice(3).join(",").trim()};
+            });
         }
 
-        function buildSoloTable(data, allowCompare = true) {
+        function rankClass(r) {
+            return r===1?"rank-1":r===2?"rank-2":r===3?"rank-3":"";
+        }
+
+        function formatPlace(p) { return p===1?"WR":"Top-"+p; }
+
+        // ── Build tables ─────────────────────────────────────────────
+        function buildSoloTable(data, allowCompare) {
+            if (allowCompare === undefined) allowCompare = true;
             if (!data.length) return '<div class="loading">No data available</div>';
             const showCheck = allowCompare && compareMode;
-            const checkCol = showCheck ? `<th class="row-check-cell"></th>` : "";
+            const checkCol  = showCheck ? '<th class="row-check-cell"></th>' : "";
             const rows = data.map(p => {
-                const isSelected = selectedPlayers.some(s => s.name === p.player);
-                const isDisabled = showCheck && selectedPlayers.length >= 2 && !isSelected;
-                const checkCell = showCheck ? `
+                const isSel = selectedPlayers.some(s => s.name === p.player);
+                const isDis = showCheck && selectedPlayers.length >= 2 && !isSel;
+                const chk   = showCheck ? `
                     <td class="row-check-cell">
-                        <div class="row-checkbox ${isSelected?'checked':''} ${isDisabled?'disabled':''}"
-                             data-player="${p.player}"
-                             onclick="togglePlayerSelect('${p.player.replace(/'/g,"\\'")}', ${p.points}, '${(p.avatar||'').replace(/'/g,"\\'")}', this)">
+                        <div class="row-checkbox ${isSel?"checked":""} ${isDis?"disabled":""}"
+                             onclick="toggleSelect('${p.player.replace(/'/g,"\\'")}',${p.points},'${(p.avatar||"").replace(/'/g,"\\'")}',this)">
                             <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
                                 <path d="M1 4L3.5 6.5L9 1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
                         </div>
                     </td>` : "";
-                return `
-                <tr data-player="${p.player.replace(/"/g,'&quot;')}" data-points="${p.points}" data-avatar="${(p.avatar||'').replace(/"/g,'&quot;')}">
-                    ${checkCell}
+                return `<tr data-player="${p.player.replace(/"/g,'&quot;')}" data-points="${p.points}" data-avatar="${(p.avatar||"").replace(/"/g,'&quot;')}">
+                    ${chk}
                     <td class="rank-column ${rankClass(p.rank)}">${p.rank}</td>
-                    <td><div class="avatar-cell">
-                        <img class="avatar" src="${p.avatar || FALLBACK_AVATAR}" onerror="this.src='${FALLBACK_AVATAR}'">
-                    </div></td>
+                    <td><div class="avatar-cell"><img class="avatar" src="${p.avatar||FALLBACK_AVATAR}" onerror="this.src='${FALLBACK_AVATAR}'"></div></td>
                     <td>${p.player}</td>
-                    <td class="${p.rank===1?'points-gold':''}">${p.points}</td>
-                </tr>`}).join("");
-            return `<table>
-                <thead><tr>${checkCol}<th>#</th><th></th><th>Nickname</th><th style="text-align:right;padding-right:25px">Points</th></tr></thead>
-                <tbody>${rows}</tbody>
-            </table>`;
+                    <td class="${p.rank===1?"points-gold":""}">${p.points}</td>
+                </tr>`;
+            }).join("");
+            return `<table><thead><tr>${checkCol}<th>#</th><th></th><th>Nickname</th><th style="text-align:right;padding-right:25px">Points</th></tr></thead><tbody>${rows}</tbody></table>`;
         }
 
         function buildCoopTable(data) {
             const rows = data.map(p => `
                 <tr>
                     <td class="rank-column ${rankClass(p.rank)}">${p.rank}</td>
-                    <td><div style="display:flex;gap:5px">
-                        ${p.avatars.map(a => `<img class="avatar" style="width:36px;height:36px" src="${a||FALLBACK_AVATAR}" onerror="this.src='${FALLBACK_AVATAR}'">`).join("")}
-                    </div></td>
+                    <td><div style="display:flex;gap:5px">${p.avatars.map(a=>`<img class="avatar" style="width:36px;height:36px" src="${a||FALLBACK_AVATAR}" onerror="this.src='${FALLBACK_AVATAR}'">`).join("")}</div></td>
                     <td>${p.players.join(" <span style='color:#9aaec5'>•</span> ")}</td>
                     <td>${p.points}</td>
                 </tr>`).join("");
-            return `<table>
-                <thead><tr><th>#</th><th></th><th>Team</th><th style="text-align:right;padding-right:25px">Points</th></tr></thead>
-                <tbody>${rows}</tbody>
-            </table>`;
+            return `<table><thead><tr><th>#</th><th></th><th>Team</th><th style="text-align:right;padding-right:25px">Points</th></tr></thead><tbody>${rows}</tbody></table>`;
         }
 
-        // Загружает данные 
+        // ── Compare ──────────────────────────────────────────────────
+        function buildCompareCard(p) {
+            const ach = achievements[p.name] || {};
+            const achHtml = Object.entries(ach).length
+                ? Object.entries(ach).sort((a,b)=>a[1]-b[1]).map(([cat,place])=>`
+                    <div class="c-ach-item">
+                        <span class="c-ach-cat">${cat}</span>
+                        <span class="c-ach-place ${place===1?"wr":""}">${formatPlace(place)}</span>
+                    </div>`).join("")
+                : '<div style="color:#6a7a8c;font-size:.85rem">No data</div>';
+            return `<div class="compare-card">
+                <img class="c-avatar" src="${p.avatar||FALLBACK_AVATAR}" onerror="this.src='${FALLBACK_AVATAR}'">
+                <div class="c-name">${p.name}</div>
+                <div class="c-points">${p.points} pts</div>
+                <div class="c-achievements"><div class="c-ach-title">Achievements</div>${achHtml}</div>
+            </div>`;
+        }
+
+        function toggleSelect(name, points, avatar, el) {
+            if (el.classList.contains("disabled")) return;
+            const idx = selectedPlayers.findIndex(p=>p.name===name);
+            if (idx !== -1) {
+                selectedPlayers.splice(idx,1);
+                el.classList.remove("checked");
+            } else {
+                if (selectedPlayers.length >= 2) return;
+                selectedPlayers.push({name,points,avatar});
+                el.classList.add("checked");
+                if (selectedPlayers.length === 2) {
+                    document.getElementById("compareCards").innerHTML = selectedPlayers.map(buildCompareCard).join("");
+                    document.getElementById("compareOverlay").classList.add("visible");
+                }
+            }
+            document.querySelectorAll(".row-checkbox").forEach(cb => {
+                const isSel = selectedPlayers.some(p=>p.name===cb.closest("tr")?.dataset.player);
+                cb.classList.toggle("disabled", selectedPlayers.length>=2 && !isSel);
+            });
+        }
+
+        function closeCompare() {
+            document.getElementById("compareOverlay").classList.remove("visible");
+            selectedPlayers = [];
+            if (currentTab==="main") document.getElementById("tableContainer").innerHTML = buildSoloTable(mainGameData);
+        }
+
+        // ── Tooltip ──────────────────────────────────────────────────
+        const tooltipEl = document.getElementById("tooltip");
+        let tipTimeout;
+
+        function showTip(e, player, points, avatar) {
+            const ach = achievements[player] || {};
+            const achHtml = Object.entries(ach).length
+                ? Object.entries(ach).sort((a,b)=>a[1]-b[1]).map(([cat,place])=>`
+                    <div class="tooltip-ach-item">
+                        <span class="tooltip-ach-cat">${cat}</span>
+                        <span class="tooltip-ach-place ${place===1?"wr":""}">${formatPlace(place)}</span>
+                    </div>`).join("")
+                : '<div class="tooltip-empty">No achievements</div>';
+            tooltipEl.innerHTML = `
+                <div class="tooltip-header">
+                    <img class="tooltip-avatar" src="${avatar||FALLBACK_AVATAR}" onerror="this.src='${FALLBACK_AVATAR}'">
+                    <div><div class="tooltip-name">${player}</div><div class="tooltip-points">${points} pts</div></div>
+                </div>
+                <div class="tooltip-divider"></div>
+                <div class="tooltip-ach-title">Categories</div>${achHtml}`;
+            posTip(e);
+            tooltipEl.classList.add("visible");
+        }
+
+        function posTip(e) {
+            const pad=16, tw=260, th=tooltipEl.offsetHeight;
+            let x=e.clientX+pad, y=e.clientY+pad;
+            if (x+tw>window.innerWidth)  x=e.clientX-tw-pad;
+            if (y+th>window.innerHeight) y=e.clientY-th-pad;
+            tooltipEl.style.left=x+"px"; tooltipEl.style.top=y+"px";
+        }
+
+        const tc = document.getElementById("tableContainer");
+        tc.addEventListener("mouseover", e => {
+            const row = e.target.closest("tr[data-player]");
+            if (!row) return;
+            clearTimeout(tipTimeout);
+            tipTimeout = setTimeout(()=>showTip(e,row.dataset.player,row.dataset.points,row.dataset.avatar), 350);
+        });
+        tc.addEventListener("mousemove", e => { if (tooltipEl.classList.contains("visible")) posTip(e); });
+        tc.addEventListener("mouseout",  e => { if (e.target.closest("tr[data-player]")) { clearTimeout(tipTimeout); tooltipEl.classList.remove("visible"); } });
+
+        // ── Data loading ─────────────────────────────────────────────
         async function loadMainGame() {
             if (isLoading) return;
             isLoading = true;
@@ -316,16 +317,16 @@
             container.innerHTML = '<div class="loading">Loading...</div>';
             try {
                 const [csvText, meta, ach] = await Promise.all([
-                    fetch(`${BASE}/main_game.csv`).then(r => r.text()),
-                    fetch(`${BASE}/metadata.json`).then(r => r.json()),
-                    fetch(`${BASE}/achievements.json`).then(r => r.json()).catch(() => ({}))
+                    fetch(`${BASE}/main_game.csv`).then(r=>r.text()),
+                    fetch(`${BASE}/metadata.json`).then(r=>r.json()),
+                    fetch(`${BASE}/achievements.json`).then(r=>r.json()).catch(()=>({}))
                 ]);
                 mainGameData = parseCSV(csvText);
                 achievements = ach;
+                dataLoaded   = true;
                 container.innerHTML = buildSoloTable(mainGameData);
-                if (meta.last_updated) {
-                    document.getElementById("lastUpdate").textContent = meta.last_updated;
-                }
+                const upd = meta.last_updated;
+                if (upd) document.getElementById("lastUpdate").textContent = upd;
             } catch(e) {
                 console.error("Load error:", e);
                 container.innerHTML = '<div class="loading">⚠️ Failed to load data.</div>';
@@ -334,28 +335,22 @@
             }
         }
 
+        // ── Tabs ─────────────────────────────────────────────────────
         function showTab(tab) {
             currentTab = tab;
-            ["main","demo","coop"].forEach(t => {
-                document.getElementById(`tab-${t}`).classList.toggle("active", t === tab);
-            });
+            ["main","demo","coop"].forEach(t =>
+                document.getElementById(`tab-${t}`).classList.toggle("active", t===tab));
             const ct = document.getElementById("compareToggle");
             if (tab !== "main") {
-                compareMode = false;
-                selectedPlayers = [];
-                ct.classList.remove("active");
-                ct.style.display = "none";
+                compareMode = false; selectedPlayers = [];
+                ct.classList.remove("active"); ct.style.display = "none";
             } else {
                 ct.style.display = "flex";
             }
             const container = document.getElementById("tableContainer");
             if (tab === "main") {
-                // Если данные уже загружены — не делаем лишний fetch
-                if (mainGameData.length) {
-                    container.innerHTML = buildSoloTable(mainGameData);
-                } else {
-                    loadMainGame();
-                }
+                if (dataLoaded) container.innerHTML = buildSoloTable(mainGameData);
+                else loadMainGame();
             } else if (tab === "demo") {
                 container.innerHTML = buildSoloTable(DEMO_DATA, false);
             } else {
@@ -363,98 +358,20 @@
             }
         }
 
-        // Tooltip
-        const tooltipEl = document.getElementById("tooltip");
-        let tooltipTimeout;
+        document.getElementById("tab-main").addEventListener("click", ()=>showTab("main"));
+        document.getElementById("tab-demo").addEventListener("click", ()=>showTab("demo"));
+        document.getElementById("tab-coop").addEventListener("click", ()=>showTab("coop"));
 
-        function showTooltip(e, player, points, avatar) {
-            const ach = achievements[player] || {};
-            const achHtml = Object.entries(ach).length
-                ? Object.entries(ach).sort((a,b) => a[1]-b[1]).map(([cat, place]) => `
-                    <div class="tooltip-ach-item">
-                        <span class="tooltip-ach-cat">${cat}</span>
-                        <span class="tooltip-ach-place ${place===1?'wr':''}">${place===1?'WR':'Top-'+place}</span>
-                    </div>`).join("")
-                : '<div class="tooltip-empty">No achievements</div>';
-
-            tooltipEl.innerHTML = `
-                <div class="tooltip-header">
-                    <img class="tooltip-avatar" src="${avatar || FALLBACK_AVATAR}" onerror="this.src='${FALLBACK_AVATAR}'">
-                    <div>
-                        <div class="tooltip-name">${player}</div>
-                        <div class="tooltip-points">${points} pts</div>
-                    </div>
-                </div>
-                <div class="tooltip-divider"></div>
-                <div class="tooltip-ach-title">Categories</div>
-                ${achHtml}`;
-
-            positionTooltip(e);
-            tooltipEl.classList.add("visible");
-        }
-
-        function positionTooltip(e) {
-            const pad = 16, tw = 260, th = tooltipEl.offsetHeight;
-            let x = e.clientX + pad, y = e.clientY + pad;
-            if (x + tw > window.innerWidth)  x = e.clientX - tw - pad;
-            if (y + th > window.innerHeight) y = e.clientY - th - pad;
-            tooltipEl.style.left = x + "px";
-            tooltipEl.style.top  = y + "px";
-        }
-
-        function hideTooltip() {
-            tooltipEl.classList.remove("visible");
-        }
-
-        // Вешаем tooltip на строки таблицы (делегирование)
-        document.getElementById("tableContainer").addEventListener("mouseover", e => {
-            const row = e.target.closest("tr[data-player]");
-            if (!row) return;
-            clearTimeout(tooltipTimeout);
-            tooltipTimeout = setTimeout(() => {
-                showTooltip(e, row.dataset.player, row.dataset.points, row.dataset.avatar);
-            }, 350);
-        });
-        document.getElementById("tableContainer").addEventListener("mousemove", e => {
-            if (tooltipEl.classList.contains("visible")) positionTooltip(e);
-        });
-        document.getElementById("tableContainer").addEventListener("mouseout", e => {
-            const row = e.target.closest("tr[data-player]");
-            if (row) { clearTimeout(tooltipTimeout); hideTooltip(); }
-        });
-        document.getElementById("tab-demo").addEventListener("click",  () => showTab("demo"));
-        document.getElementById("tab-coop").addEventListener("click",  () => showTab("coop"));
-
-        // Compare toggle
-        const compareToggle = document.getElementById("compareToggle");
-        compareToggle.addEventListener("click", () => {
-            compareMode = !compareMode;
-            selectedPlayers = [];
-            compareToggle.classList.toggle("active", compareMode);
-            if (currentTab === "main") {
-                document.getElementById("tableContainer").innerHTML = buildSoloTable(mainGameData);
-            }
+        document.getElementById("compareToggle").addEventListener("click", ()=>{
+            compareMode = !compareMode; selectedPlayers = [];
+            document.getElementById("compareToggle").classList.toggle("active", compareMode);
+            document.getElementById("tableContainer").innerHTML = buildSoloTable(mainGameData);
         });
 
-        document.getElementById("compareClose").addEventListener("click", () => {
-            closeCompareModal();
-            // Сбрасываем выбор после закрытия
-            selectedPlayers = [];
-            if (currentTab === "main") {
-                document.getElementById("tableContainer").innerHTML = buildSoloTable(mainGameData);
-            }
-        });
+        document.getElementById("compareClose").addEventListener("click", closeCompare);
+        document.getElementById("compareOverlay").addEventListener("click", e=>{ if(e.target===e.currentTarget) closeCompare(); });
 
-        document.getElementById("compareOverlay").addEventListener("click", e => {
-            if (e.target === e.currentTarget) {
-                closeCompareModal();
-                selectedPlayers = [];
-                if (currentTab === "main") {
-                    document.getElementById("tableContainer").innerHTML = buildSoloTable(mainGameData);
-                }
-            }
-        });
-
+        // Старт
         showTab("main");
     </script>
 </body>

@@ -49,6 +49,44 @@
         .table-container::-webkit-scrollbar-track { background:#0a0f15; }
         .table-container::-webkit-scrollbar-thumb { background:#263544;border-radius:10px; }
         .table-container::-webkit-scrollbar-thumb:hover { background:#32475b; }
+
+        /* ── Compare button ── */
+        .compare-toggle { display:flex;align-items:center;gap:8px;cursor:pointer;user-select:none;color:#8b98a9;font-size:.9rem;transition:color .2s; }
+        .compare-toggle:hover { color:#fff; }
+        .compare-toggle input[type=checkbox] { display:none; }
+        .compare-box { width:18px;height:18px;border:2px solid #2a3b4e;border-radius:4px;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0; }
+        .compare-toggle.active .compare-box { background:#1e3b5c;border-color:#4a8abf; }
+        .compare-toggle.active { color:#b7c9e0; }
+        .compare-box svg { display:none; }
+        .compare-toggle.active .compare-box svg { display:block; }
+
+        /* ── Row checkboxes ── */
+        .row-check-cell { width:36px;padding-left:12px !important; }
+        .row-checkbox { width:18px;height:18px;border:2px solid #2a3b4e;border-radius:4px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0; }
+        .row-checkbox.checked { background:#1e3b5c;border-color:#4a8abf; }
+        .row-checkbox svg { display:none; }
+        .row-checkbox.checked svg { display:block; }
+        .row-checkbox.disabled { opacity:.3;cursor:not-allowed; }
+
+        /* ── Compare modal ── */
+        .compare-overlay { display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:100;align-items:center;justify-content:center;backdrop-filter:blur(4px); }
+        .compare-overlay.visible { display:flex; }
+        .compare-modal { background:#0f1217;border:1px solid #1f2b36;border-radius:20px;padding:30px;max-width:700px;width:90%;max-height:90vh;overflow-y:auto;position:relative; }
+        .compare-close { position:absolute;top:16px;right:20px;background:none;border:none;color:#6a7a8c;font-size:1.4rem;cursor:pointer;transition:color .2s;line-height:1; }
+        .compare-close:hover { color:#fff; }
+        .compare-title { text-align:center;font-size:1rem;color:#6a7a8c;text-transform:uppercase;letter-spacing:2px;margin-bottom:24px; }
+        .compare-cards { display:flex;gap:20px;justify-content:center;flex-wrap:wrap; }
+        .compare-card { background:#0b1017;border:1px solid #1f2b36;border-radius:16px;padding:24px;flex:1 1 240px;max-width:280px;display:flex;flex-direction:column;align-items:center;gap:12px; }
+        .compare-card .c-avatar { width:72px;height:72px;border-radius:50%;object-fit:cover;border:2px solid #2a3b4e; }
+        .compare-card .c-name { font-size:1.1rem;font-weight:500;color:#fff;text-align:center; }
+        .compare-card .c-points { font-size:.85rem;color:#9aaec5;background:#131a24;padding:4px 14px;border-radius:20px; }
+        .compare-card .c-achievements { width:100%;margin-top:4px; }
+        .compare-card .c-ach-title { font-size:.75rem;text-transform:uppercase;letter-spacing:1.5px;color:#6a7a8c;margin-bottom:8px; }
+        .c-ach-item { display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid #1b2430;font-size:.85rem; }
+        .c-ach-item:last-child { border-bottom:none; }
+        .c-ach-cat { color:#dde3ea; }
+        .c-ach-place { font-weight:600;color:#4a8abf; }
+        .c-ach-place.wr { color:#ffd966; }
     </style>
 </head>
 <body>
@@ -61,6 +99,14 @@
             <button class="tab" id="tab-demo">Demo</button>
             <button class="tab" id="tab-coop">Co-op</button>
         </div>
+        <label class="compare-toggle" id="compareToggle">
+            <div class="compare-box">
+                <svg width="12" height="10" viewBox="0 0 12 10" fill="none">
+                    <path d="M1 5L4.5 8.5L11 1.5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+            Compare
+        </label>
     </div>
 
     <div class="table-container" id="tableContainer">
@@ -71,23 +117,94 @@
         Last update: <span id="lastUpdate">—</span>
     </div>
 
+    <!-- Compare modal -->
+    <div class="compare-overlay" id="compareOverlay">
+        <div class="compare-modal">
+            <button class="compare-close" id="compareClose">✕</button>
+            <div class="compare-title">Player Comparison</div>
+            <div class="compare-cards" id="compareCards"></div>
+        </div>
+    </div>
+
     <script>
-       
+
         const BASE = "https://raw.githubusercontent.com/BGSW-dev/ReanimaHub/main";
 
         const FALLBACK_AVATAR = "https://www.speedrun.com/images/user.png";
 
-        // Парсит CSV файл в массив объектов
+        let compareMode = false;
+        let selectedPlayers = []; // [{name, points, avatar}]
+        let achievements = {};    // загружается из achievements.json
+        let mainGameData = [];    // кеш
+
+        // Парсит CSV файл 
         function parseCSV(text) {
-            const lines = text.trim().split("\n").slice(1); // пропускаем заголовок
+            const lines = text.trim().split("\n").slice(1);
             return lines.map(line => {
                 const cols = line.split(",");
                 return {
                     rank:   Number(cols[0]),
                     player: cols[1],
                     points: Number(cols[2]),
-                    avatar: cols.slice(3).join(",").trim() 
+                    avatar: cols.slice(3).join(",").trim()
                 };
+            });
+        }
+
+        // Форматирует место
+        function formatPlace(place) {
+            return place === 1 ? "WR" : `Top-${place}`;
+        }
+
+        // Строит карточку сравнения
+        function buildCompareCard(player) {
+            const ach = achievements[player.name] || {};
+            const achEntries = Object.entries(ach)
+                .sort((a, b) => a[1] - b[1]) // сортируем по месту
+                .map(([cat, place]) => `
+                    <div class="c-ach-item">
+                        <span class="c-ach-cat">${cat}</span>
+                        <span class="c-ach-place ${place===1?'wr':''}">${formatPlace(place)}</span>
+                    </div>`).join("");
+
+            return `
+                <div class="compare-card">
+                    <img class="c-avatar" src="${player.avatar || FALLBACK_AVATAR}" onerror="this.src='${FALLBACK_AVATAR}'">
+                    <div class="c-name">${player.name}</div>
+                    <div class="c-points">${player.points} pts</div>
+                    <div class="c-achievements">
+                        <div class="c-ach-title">Achievements</div>
+                        ${achEntries || '<div style="color:#6a7a8c;font-size:.85rem">No data</div>'}
+                    </div>
+                </div>`;
+        }
+
+        function showCompareModal() {
+            document.getElementById("compareCards").innerHTML =
+                selectedPlayers.map(buildCompareCard).join("");
+            document.getElementById("compareOverlay").classList.add("visible");
+        }
+
+        function closeCompareModal() {
+            document.getElementById("compareOverlay").classList.remove("visible");
+        }
+
+        // Переключает выбор игрока в режиме сравнения
+        function togglePlayerSelect(name, points, avatar, checkEl) {
+            const idx = selectedPlayers.findIndex(p => p.name === name);
+            if (idx !== -1) {
+                selectedPlayers.splice(idx, 1);
+                checkEl.classList.remove("checked");
+            } else {
+                if (selectedPlayers.length >= 2) return;
+                selectedPlayers.push({name, points, avatar});
+                checkEl.classList.add("checked");
+                if (selectedPlayers.length === 2) showCompareModal();
+            }
+            // Блокируем остальные если уже 2 выбрано
+            document.querySelectorAll(".row-checkbox").forEach(el => {
+                const isSelected = selectedPlayers.some(p => p.name === el.dataset.player);
+                el.classList.toggle("disabled", selectedPlayers.length >= 2 && !isSelected);
             });
         }
 
@@ -114,17 +231,35 @@
 
         function buildSoloTable(data) {
             if (!data.length) return '<div class="loading">No data available</div>';
-            const rows = data.map(p => `
+            const checkCol = compareMode
+                ? `<th class="row-check-cell"></th>` : "";
+            const rows = data.map(p => {
+                const isSelected = selectedPlayers.some(s => s.name === p.player);
+                const isDisabled = compareMode && selectedPlayers.length >= 2 && !isSelected;
+                const checkCell = compareMode ? `
+                    <td class="row-check-cell">
+                        <div class="row-checkbox ${isSelected?'checked':''} ${isDisabled?'disabled':''}"
+                             data-player="${p.player}"
+                             data-points="${p.points}"
+                             data-avatar="${p.avatar || ''}"
+                             onclick="togglePlayerSelect('${p.player.replace(/'/g,"\\'")}', ${p.points}, '${(p.avatar||'').replace(/'/g,"\\'")}', this)">
+                            <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
+                                <path d="M1 4L3.5 6.5L9 1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                    </td>` : "";
+                return `
                 <tr>
+                    ${checkCell}
                     <td class="rank-column ${rankClass(p.rank)}">${p.rank}</td>
                     <td><div class="avatar-cell">
                         <img class="avatar" src="${p.avatar || FALLBACK_AVATAR}" onerror="this.src='${FALLBACK_AVATAR}'">
                     </div></td>
                     <td>${p.player}</td>
                     <td class="${p.rank===1?'points-gold':''}">${p.points}</td>
-                </tr>`).join("");
+                </tr>`}).join("");
             return `<table>
-                <thead><tr><th>#</th><th></th><th>Nickname</th><th style="text-align:right;padding-right:25px">Points</th></tr></thead>
+                <thead><tr>${checkCol}<th>#</th><th></th><th>Nickname</th><th style="text-align:right;padding-right:25px">Points</th></tr></thead>
                 <tbody>${rows}</tbody>
             </table>`;
         }
@@ -145,17 +280,19 @@
             </table>`;
         }
 
-        // Загружает данные из GitHub репо 
+        // Загружает данные
         async function loadMainGame() {
             const container = document.getElementById("tableContainer");
             container.innerHTML = '<div class="loading">Loading...</div>';
             try {
-                const [csvText, meta] = await Promise.all([
+                const [csvText, meta, ach] = await Promise.all([
                     fetch(`${BASE}/main_game.csv`).then(r => r.text()),
-                    fetch(`${BASE}/metadata.json`).then(r => r.json())
+                    fetch(`${BASE}/metadata.json`).then(r => r.json()),
+                    fetch(`${BASE}/achievements.json`).then(r => r.json()).catch(() => ({}))
                 ]);
-                const data = parseCSV(csvText);
-                container.innerHTML = buildSoloTable(data);
+                mainGameData = parseCSV(csvText);
+                achievements = ach;
+                container.innerHTML = buildSoloTable(mainGameData);
                 if (meta.last_updated) {
                     document.getElementById("lastUpdate").textContent = meta.last_updated;
                 }
@@ -182,6 +319,36 @@
         document.getElementById("tab-main").addEventListener("click", () => showTab("main"));
         document.getElementById("tab-demo").addEventListener("click",  () => showTab("demo"));
         document.getElementById("tab-coop").addEventListener("click",  () => showTab("coop"));
+
+        // Compare toggle
+        const compareToggle = document.getElementById("compareToggle");
+        compareToggle.addEventListener("click", () => {
+            compareMode = !compareMode;
+            selectedPlayers = [];
+            compareToggle.classList.toggle("active", compareMode);
+            if (currentTab === "main") {
+                document.getElementById("tableContainer").innerHTML = buildSoloTable(mainGameData);
+            }
+        });
+
+        document.getElementById("compareClose").addEventListener("click", () => {
+            closeCompareModal();
+            // Сброс
+            selectedPlayers = [];
+            if (currentTab === "main") {
+                document.getElementById("tableContainer").innerHTML = buildSoloTable(mainGameData);
+            }
+        });
+
+        document.getElementById("compareOverlay").addEventListener("click", e => {
+            if (e.target === e.currentTarget) {
+                closeCompareModal();
+                selectedPlayers = [];
+                if (currentTab === "main") {
+                    document.getElementById("tableContainer").innerHTML = buildSoloTable(mainGameData);
+                }
+            }
+        });
 
         showTab("main");
     </script>

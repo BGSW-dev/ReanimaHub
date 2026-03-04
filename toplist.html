@@ -225,7 +225,7 @@ function imgErr(el) { el.onerror=null; el.src=FALLBACK_AVATAR; }
 
         // ── Compare ──────────────────────────────────────────────────
         function buildCompareCard(p) {
-            const ach = achievements[p.name] || {};
+            const ach = (currentTab === "demo" ? demoAch : achievements)[p.name] || {};
             const achHtml = Object.entries(ach).length
                 ? Object.entries(ach).sort((a,b)=>a[1]-b[1]).map(([cat,place])=>`
                     <div class="c-ach-item">
@@ -323,7 +323,7 @@ function imgErr(el) { el.onerror=null; el.src=FALLBACK_AVATAR; }
                 demoData   = parseCSV(csvText);
                 demoAch    = ach;
                 demoLoaded = true;
-                container.innerHTML = buildSoloTable(demoData, false);
+                container.innerHTML = buildSoloTable(demoData, true);
             } catch(e) {
                 console.error("Demo load error:", e);
                 container.innerHTML = '<div class="loading">⚠️ Failed to load data.</div>';

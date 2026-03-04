@@ -308,7 +308,7 @@
             </table>`;
         }
 
-        // Загружает данные из GitHub репо вместо PythonAnywhere
+        // Загружает данные
         async function loadMainGame() {
             const container = document.getElementById("tableContainer");
             container.innerHTML = '<div class="loading">Loading...</div>';
@@ -334,7 +334,6 @@
             ["main","demo","coop"].forEach(t => {
                 document.getElementById(`tab-${t}`).classList.toggle("active", t === tab);
             });
-            // Compare только на Main Game
             const ct = document.getElementById("compareToggle");
             if (tab !== "main") {
                 compareMode = false;
@@ -346,7 +345,12 @@
             }
             const container = document.getElementById("tableContainer");
             if (tab === "main") {
-                loadMainGame();
+                // Если данные уже загружены — не делаем лишний fetch
+                if (mainGameData.length) {
+                    container.innerHTML = buildSoloTable(mainGameData);
+                } else {
+                    loadMainGame();
+                }
             } else if (tab === "demo") {
                 container.innerHTML = buildSoloTable(DEMO_DATA, false);
             } else {

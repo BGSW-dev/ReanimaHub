@@ -29,14 +29,12 @@
         tbody tr:nth-child(even){background:#0b1017;}
         tbody tr:hover{background:#16212e;transform:scale(1.01);box-shadow:0 4px 12px rgba(0,0,0,.5);}
         .rank-column{width:50px;text-align:center;font-weight:700;font-size:1.1rem;color:#b7c9e0;}
-        .rank-1{color:#ffd966;font-size:1.2rem;}
-        .rank-2{color:#c0c0c0;}
-        .rank-3{color:#cd7f32;}
+        .rank-1{color:#ffd966;font-size:1.2rem;} .rank-2{color:#c0c0c0;} .rank-3{color:#cd7f32;}
         .avatar{width:44px;height:44px;border-radius:50%;object-fit:cover;border:1.5px solid #2a3b4e;transition:all .2s;}
         tr:hover .avatar{border-color:#4a6b8a;transform:rotate(2deg) scale(1.05);}
         .avatar-cell{display:flex;align-items:center;gap:10px;}
-        td:nth-child(2){padding-right:0;}td:nth-child(3){padding-left:0;font-weight:400;color:#f0f4fa;}
-        th:nth-child(2){padding-right:0;}th:nth-child(3){padding-left:0;}
+        td:nth-child(2){padding-right:0;} td:nth-child(3){padding-left:0;font-weight:400;color:#f0f4fa;}
+        th:nth-child(2){padding-right:0;} th:nth-child(3){padding-left:0;}
         td:last-child{text-align:right;padding-right:25px;font-weight:500;color:#b7c9e0;}
         th:last-child{text-align:right;padding-right:25px;}
         .points-gold{color:#ffd966;font-weight:700;}
@@ -58,9 +56,7 @@
         .tooltip-divider{height:1px;background:#1b2430;margin-bottom:8px;}
         .tooltip-ach-title{font-size:.7rem;text-transform:uppercase;letter-spacing:1.5px;color:#6a7a8c;margin-bottom:6px;}
         .tooltip-ach-item{display:flex;justify-content:space-between;font-size:.82rem;padding:3px 0;}
-        .tooltip-ach-cat{color:#c0ccd8;}
-        .tooltip-ach-place{font-weight:600;color:#4a8abf;}
-        .tooltip-ach-place.wr{color:#ffd966;}
+        .tooltip-ach-cat{color:#c0ccd8;} .tooltip-ach-place{font-weight:600;color:#4a8abf;} .tooltip-ach-place.wr{color:#ffd966;}
         .tooltip-empty{font-size:.82rem;color:#6a7a8c;}
 
         /* Compare button */
@@ -69,15 +65,13 @@
         .compare-box{width:18px;height:18px;border:2px solid #2a3b4e;border-radius:4px;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0;}
         .compare-toggle.active .compare-box{background:#1e3b5c;border-color:#4a8abf;}
         .compare-toggle.active{color:#b7c9e0;}
-        .compare-box svg{display:none;}
-        .compare-toggle.active .compare-box svg{display:block;}
+        .compare-box svg{display:none;} .compare-toggle.active .compare-box svg{display:block;}
 
         /* Row checkboxes */
         .row-check-cell{width:36px;padding-left:12px !important;}
         .row-checkbox{width:18px;height:18px;border:2px solid #2a3b4e;border-radius:4px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0;}
         .row-checkbox.checked{background:#1e3b5c;border-color:#4a8abf;}
-        .row-checkbox svg{display:none;}
-        .row-checkbox.checked svg{display:block;}
+        .row-checkbox svg{display:none;} .row-checkbox.checked svg{display:block;}
         .row-checkbox.disabled{opacity:.3;cursor:not-allowed;}
 
         /* Compare modal */
@@ -96,9 +90,7 @@
         .compare-card .c-ach-title{font-size:.75rem;text-transform:uppercase;letter-spacing:1.5px;color:#6a7a8c;margin-bottom:8px;}
         .c-ach-item{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid #1b2430;font-size:.85rem;}
         .c-ach-item:last-child{border-bottom:none;}
-        .c-ach-cat{color:#dde3ea;}
-        .c-ach-place{font-weight:600;color:#4a8abf;}
-        .c-ach-place.wr{color:#ffd966;}
+        .c-ach-cat{color:#dde3ea;} .c-ach-place{font-weight:600;color:#4a8abf;} .c-ach-place.wr{color:#ffd966;}
     </style>
 </head>
 <body>
@@ -108,7 +100,7 @@
     <div class="controls-row">
         <div class="tabs">
             <button class="tab active" id="tab-main">Main Game</button>
-            <button class="tab" id="tab-demo">Demo</button>
+            <button class="tab"        id="tab-demo">Demo</button>
         </div>
         <label class="compare-toggle" id="compareToggle">
             <div class="compare-box">
@@ -126,7 +118,7 @@
 
     <div class="update-footer">
         Last update: <span id="lastUpdate">—</span><br>
-        <span style="font-size:.7rem;color:#3a4a5a">v0.1.0.1</span>
+        <span style="font-size:.7rem;color:#3a4a5a">v0.1.0.2</span>
     </div>
 
     <div style="margin-top:16px;font-size:.75rem;color:#4a5a6a;display:flex;gap:20px;">
@@ -145,49 +137,41 @@
     </div>
 
     <script>
-        // репо
         const BASE = "https://raw.githubusercontent.com/BGSW-dev/ReanimaHub/main";
         const FALLBACK_AVATAR = "https://www.speedrun.com/images/user.png";
-function imgErr(el) { el.onerror=null; el.src=FALLBACK_AVATAR; }
+        function imgErr(el) { el.onerror=null; el.src=FALLBACK_AVATAR; }
 
-        let currentTab   = "main";
-        let compareMode  = false;
-        let selectedPlayers = [];
-        let achievements = {};
-        let mainGameData = [];
-        let demoData     = [];
-        let demoAch      = {};
-        let dataLoaded   = false;
-        let demoLoaded   = false;
-        let isLoading    = false;
-        let isDemoLoading= false;
+        // ── State ────────────────────────────────────────────────────
+        let currentTab    = "main";
+        let compareMode   = false;
+        let selectedPlayers = [];   // [{name, points, avatar}]
 
-        // ── Demo / Coop data ─────────────────────────────────────────
-        const COOP_DATA = [
-            {rank:1,players:["WORK IN PROGRESS"],points:150,avatars:["",""]},
-            {rank:2,players:["WORK IN PROGRESS"],points:105,avatars:["",""]},
-        ];
+        let mainData      = [];
+        let mainAch       = {};
+        let mainLoaded    = false;
+        let mainLoading   = false;
+
+        let demoData      = [];
+        let demoAch       = {};
+        let demoLoaded    = false;
+        let demoLoading   = false;
 
         // ── Helpers ──────────────────────────────────────────────────
         function parseCSV(text) {
             return text.trim().split("\n").slice(1).map(line => {
                 const c = line.split(",");
                 const avatar = c.slice(3).join(",").trim().replace(/^http:\/\//,"https://");
-                return {rank:Number(c[0]),player:c[1],points:Number(c[2]),avatar};
+                return {rank:Number(c[0]), player:c[1], points:Number(c[2]), avatar};
             });
         }
-
-        function rankClass(r) {
-            return r===1?"rank-1":r===2?"rank-2":r===3?"rank-3":"";
-        }
-
+        function rankClass(r) { return r===1?"rank-1":r===2?"rank-2":r===3?"rank-3":""; }
         function formatPlace(p) { return p===1?"WR":"Top-"+p; }
+        function currentAch() { return currentTab==="demo" ? demoAch : mainAch; }
 
-        // ── Build tables ─────────────────────────────────────────────
-        function buildSoloTable(data, allowCompare) {
-            if (allowCompare === undefined) allowCompare = true;
+        // ── Build table ──────────────────────────────────────────────
+        function buildTable(data) {
             if (!data.length) return '<div class="loading">No data available</div>';
-            const showCheck = allowCompare && compareMode;
+            const showCheck = compareMode;
             const checkCol  = showCheck ? '<th class="row-check-cell"></th>' : "";
             const rows = data.map(p => {
                 const isSel = selectedPlayers.some(s => s.name === p.player);
@@ -212,24 +196,14 @@ function imgErr(el) { el.onerror=null; el.src=FALLBACK_AVATAR; }
             return `<table><thead><tr>${checkCol}<th>#</th><th></th><th>Nickname</th><th style="text-align:right;padding-right:25px">Points</th></tr></thead><tbody>${rows}</tbody></table>`;
         }
 
-        function currentData() { return currentTab === "demo" ? demoData : mainGameData; }
-
-        function rebuildTable() {
-            document.getElementById("tableContainer").innerHTML = buildSoloTable(currentData());
-        }
-            const rows = data.map(p => `
-                <tr>
-                    <td class="rank-column ${rankClass(p.rank)}">${p.rank}</td>
-                    <td><div style="display:flex;gap:5px">${p.avatars.map(a=>`<img class="avatar" style="width:36px;height:36px" src="${a||FALLBACK_AVATAR}" onerror="imgErr(this)">`).join("")}</div></td>
-                    <td>${p.players.join(" <span style='color:#9aaec5'>•</span> ")}</td>
-                    <td>${p.points}</td>
-                </tr>`).join("");
-            return `<table><thead><tr><th>#</th><th></th><th>Team</th><th style="text-align:right;padding-right:25px">Points</th></tr></thead><tbody>${rows}</tbody></table>`;
+        function renderCurrent() {
+            const data = currentTab==="demo" ? demoData : mainData;
+            document.getElementById("tableContainer").innerHTML = buildTable(data);
         }
 
         // ── Compare ──────────────────────────────────────────────────
         function buildCompareCard(p) {
-            const ach = (currentTab === "demo" ? demoAch : achievements)[p.name] || {};
+            const ach = currentAch()[p.name] || {};
             const achHtml = Object.entries(ach).length
                 ? Object.entries(ach).sort((a,b)=>a[1]-b[1]).map(([cat,place])=>`
                     <div class="c-ach-item">
@@ -247,29 +221,33 @@ function imgErr(el) { el.onerror=null; el.src=FALLBACK_AVATAR; }
 
         function toggleSelect(name, points, avatar, el) {
             if (el.classList.contains("disabled")) return;
-            const idx = selectedPlayers.findIndex(p=>p.name===name);
+            const idx = selectedPlayers.findIndex(p => p.name===name);
             if (idx !== -1) {
-                selectedPlayers.splice(idx,1);
+                selectedPlayers.splice(idx, 1);
                 el.classList.remove("checked");
             } else {
                 if (selectedPlayers.length >= 2) return;
-                selectedPlayers.push({name,points,avatar});
+                selectedPlayers.push({name, points, avatar});
                 el.classList.add("checked");
                 if (selectedPlayers.length === 2) {
                     document.getElementById("compareCards").innerHTML = selectedPlayers.map(buildCompareCard).join("");
                     document.getElementById("compareOverlay").classList.add("visible");
                 }
             }
+            // обновляем disabled на всех чекбоксах
             document.querySelectorAll(".row-checkbox").forEach(cb => {
-                const isSel = selectedPlayers.some(p=>p.name===cb.closest("tr")?.dataset.player);
+                const row = cb.closest("tr");
+                if (!row) return;
+                const isSel = selectedPlayers.some(p => p.name===row.dataset.player);
                 cb.classList.toggle("disabled", selectedPlayers.length>=2 && !isSel);
             });
         }
 
         function closeCompare() {
             document.getElementById("compareOverlay").classList.remove("visible");
+            // полностью сбрасываем выбор и перерисовываем таблицу
             selectedPlayers = [];
-            rebuildTable();
+            renderCurrent();
         }
 
         // ── Tooltip ──────────────────────────────────────────────────
@@ -277,7 +255,7 @@ function imgErr(el) { el.onerror=null; el.src=FALLBACK_AVATAR; }
         let tipTimeout;
 
         function showTip(e, player, points, avatar) {
-            const ach = (currentTab === "demo" ? demoAch : achievements)[player] || {};
+            const ach = currentAch()[player] || {};
             const achHtml = Object.entries(ach).length
                 ? Object.entries(ach).sort((a,b)=>a[1]-b[1]).map(([cat,place])=>`
                     <div class="tooltip-ach-item">
@@ -312,11 +290,37 @@ function imgErr(el) { el.onerror=null; el.src=FALLBACK_AVATAR; }
             tipTimeout = setTimeout(()=>showTip(e,row.dataset.player,row.dataset.points,row.dataset.avatar), 350);
         });
         tc.addEventListener("mousemove", e => { if (tooltipEl.classList.contains("visible")) posTip(e); });
-        tc.addEventListener("mouseout",  e => { if (e.target.closest("tr[data-player]")) { clearTimeout(tipTimeout); tooltipEl.classList.remove("visible"); } });
+        tc.addEventListener("mouseout",  e => { if (e.target.closest("tr[data-player]")) { clearTimeout(tipTimeout); tooltipEl.classList.remove("visible"); }});
+
+        // ── Data loading ─────────────────────────────────────────────
+        async function loadMain() {
+            if (mainLoading) return;
+            mainLoading = true;
+            const container = document.getElementById("tableContainer");
+            container.innerHTML = '<div class="loading">Loading...</div>';
+            try {
+                const [csvText, meta, ach] = await Promise.all([
+                    fetch(`${BASE}/main_game.csv`).then(r=>r.text()),
+                    fetch(`${BASE}/metadata.json`).then(r=>r.json()),
+                    fetch(`${BASE}/achievements.json`).then(r=>r.json()).catch(()=>({}))
+                ]);
+                mainData   = parseCSV(csvText);
+                mainAch    = ach;
+                mainLoaded = true;
+                const upd  = meta.last_updated;
+                if (upd) document.getElementById("lastUpdate").textContent = upd;
+                container.innerHTML = buildTable(mainData);
+            } catch(e) {
+                console.error("Main load error:", e);
+                container.innerHTML = '<div class="loading">⚠️ Failed to load data.</div>';
+            } finally {
+                mainLoading = false;
+            }
+        }
 
         async function loadDemo() {
-            if (isDemoLoading) return;
-            isDemoLoading = true;
+            if (demoLoading) return;
+            demoLoading = true;
             const container = document.getElementById("tableContainer");
             container.innerHTML = '<div class="loading">Loading...</div>';
             try {
@@ -327,75 +331,53 @@ function imgErr(el) { el.onerror=null; el.src=FALLBACK_AVATAR; }
                 demoData   = parseCSV(csvText);
                 demoAch    = ach;
                 demoLoaded = true;
-                container.innerHTML = buildSoloTable(demoData, true);
+                container.innerHTML = buildTable(demoData);
             } catch(e) {
                 console.error("Demo load error:", e);
                 container.innerHTML = '<div class="loading">⚠️ Failed to load data.</div>';
             } finally {
-                isDemoLoading = false;
-            }
-        }
-        async function loadMainGame() {
-            if (isLoading) return;
-            isLoading = true;
-            const container = document.getElementById("tableContainer");
-            container.innerHTML = '<div class="loading">Loading...</div>';
-            try {
-                const [csvText, meta, ach] = await Promise.all([
-                    fetch(`${BASE}/main_game.csv`).then(r=>r.text()),
-                    fetch(`${BASE}/metadata.json`).then(r=>r.json()),
-                    fetch(`${BASE}/achievements.json`).then(r=>r.json()).catch(()=>({}))
-                ]);
-                mainGameData = parseCSV(csvText);
-                achievements = ach;
-                dataLoaded   = true;
-                container.innerHTML = buildSoloTable(mainGameData);
-                const upd = meta.last_updated;
-                if (upd) document.getElementById("lastUpdate").textContent = upd;
-            } catch(e) {
-                console.error("Load error:", e);
-                container.innerHTML = '<div class="loading">⚠️ Failed to load data.</div>';
-            } finally {
-                isLoading = false;
+                demoLoading = false;
             }
         }
 
         // ── Tabs ─────────────────────────────────────────────────────
         function showTab(tab) {
+            if (currentTab === tab) return;
             currentTab = tab;
+            compareMode = false;
+            selectedPlayers = [];
+            document.getElementById("compareToggle").classList.remove("active");
+
             ["main","demo"].forEach(t =>
                 document.getElementById(`tab-${t}`).classList.toggle("active", t===tab));
-            const ct = document.getElementById("compareToggle");
-            if (tab !== "main" && tab !== "demo") {
-                compareMode = false; selectedPlayers = [];
-                ct.classList.remove("active"); ct.style.display = "none";
-            } else {
-                ct.style.display = "flex";
-            }
-            const container = document.getElementById("tableContainer");
+
             if (tab === "main") {
-                if (dataLoaded) container.innerHTML = buildSoloTable(mainGameData);
-                else loadMainGame();
+                if (mainLoaded) renderCurrent();
+                else loadMain();
             } else {
-                if (demoLoaded) container.innerHTML = buildSoloTable(demoData, true);
+                if (demoLoaded) renderCurrent();
                 else loadDemo();
             }
         }
 
+        // ── Events ───────────────────────────────────────────────────
         document.getElementById("tab-main").addEventListener("click", ()=>showTab("main"));
         document.getElementById("tab-demo").addEventListener("click", ()=>showTab("demo"));
 
         document.getElementById("compareToggle").addEventListener("click", ()=>{
-            compareMode = !compareMode; selectedPlayers = [];
+            compareMode = !compareMode;
+            selectedPlayers = [];
             document.getElementById("compareToggle").classList.toggle("active", compareMode);
-            rebuildTable();
+            renderCurrent();
         });
 
         document.getElementById("compareClose").addEventListener("click", closeCompare);
-        document.getElementById("compareOverlay").addEventListener("click", e=>{ if(e.target===e.currentTarget) closeCompare(); });
+        document.getElementById("compareOverlay").addEventListener("click", e=>{
+            if (e.target===e.currentTarget) closeCompare();
+        });
 
         // Старт
-        showTab("main");
+        loadMain();
     </script>
 </body>
 </html>

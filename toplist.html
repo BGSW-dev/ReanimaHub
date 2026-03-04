@@ -109,7 +109,6 @@
         <div class="tabs">
             <button class="tab active" id="tab-main">Main Game</button>
             <button class="tab" id="tab-demo">Demo</button>
-            <button class="tab" id="tab-coop">Co-op</button>
         </div>
         <label class="compare-toggle" id="compareToggle">
             <div class="compare-box">
@@ -126,7 +125,8 @@
     </div>
 
     <div class="update-footer">
-        Last update: <span id="lastUpdate">—</span>
+        Last update: <span id="lastUpdate">—</span><br>
+        <span style="font-size:.7rem;color:#3a4a5a">v0.1.0.0</span>
     </div>
 
     <div style="margin-top:16px;font-size:.75rem;color:#4a5a6a;display:flex;gap:20px;">
@@ -145,7 +145,7 @@
     </div>
 
     <script>
-        // репо
+        // ⬇️ Твой GitHub репо
         const BASE = "https://raw.githubusercontent.com/BGSW-dev/ReanimaHub/main";
         const FALLBACK_AVATAR = "https://www.speedrun.com/images/user.png";
 function imgErr(el) { el.onerror=null; el.src=FALLBACK_AVATAR; }
@@ -359,10 +359,10 @@ function imgErr(el) { el.onerror=null; el.src=FALLBACK_AVATAR; }
         // ── Tabs ─────────────────────────────────────────────────────
         function showTab(tab) {
             currentTab = tab;
-            ["main","demo","coop"].forEach(t =>
+            ["main","demo"].forEach(t =>
                 document.getElementById(`tab-${t}`).classList.toggle("active", t===tab));
             const ct = document.getElementById("compareToggle");
-            if (tab !== "main") {
+            if (tab !== "main" && tab !== "demo") {
                 compareMode = false; selectedPlayers = [];
                 ct.classList.remove("active"); ct.style.display = "none";
             } else {
@@ -372,17 +372,14 @@ function imgErr(el) { el.onerror=null; el.src=FALLBACK_AVATAR; }
             if (tab === "main") {
                 if (dataLoaded) container.innerHTML = buildSoloTable(mainGameData);
                 else loadMainGame();
-            } else if (tab === "demo") {
-                if (demoLoaded) container.innerHTML = buildSoloTable(demoData, false);
-                else loadDemo();
             } else {
-                container.innerHTML = buildCoopTable(COOP_DATA);
+                if (demoLoaded) container.innerHTML = buildSoloTable(demoData, true);
+                else loadDemo();
             }
         }
 
         document.getElementById("tab-main").addEventListener("click", ()=>showTab("main"));
         document.getElementById("tab-demo").addEventListener("click", ()=>showTab("demo"));
-        document.getElementById("tab-coop").addEventListener("click", ()=>showTab("coop"));
 
         document.getElementById("compareToggle").addEventListener("click", ()=>{
             compareMode = !compareMode; selectedPlayers = [];

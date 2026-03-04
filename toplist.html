@@ -308,8 +308,10 @@
             </table>`;
         }
 
-        // Загружает данные
+        // Загружает данные 
         async function loadMainGame() {
+            if (isLoading) return;
+            isLoading = true;
             const container = document.getElementById("tableContainer");
             container.innerHTML = '<div class="loading">Loading...</div>';
             try {
@@ -325,7 +327,10 @@
                     document.getElementById("lastUpdate").textContent = meta.last_updated;
                 }
             } catch(e) {
+                console.error("Load error:", e);
                 container.innerHTML = '<div class="loading">⚠️ Failed to load data.</div>';
+            } finally {
+                isLoading = false;
             }
         }
 

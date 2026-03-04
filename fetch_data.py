@@ -114,20 +114,25 @@ def make_lb(runs, subval):
 
 def collect():
     sc=defaultdict(lambda:{"points":0.0,"avatar":""})
-    def add(nm,av,pts):
-        if pts<=0 or not nm: return
-        sc[nm]["points"]+=pts
-        if not sc[nm]["avatar"] and av: sc[nm]["avatar"]=av
+    pl=defaultdict(dict)  # placements: {player: {category: place}}
+
+    def add(nm,av,pts,cat,place):
+        if not nm: return
+        if pts>0:
+            sc[nm]["points"]+=pts
+            if not sc[nm]["avatar"] and av: sc[nm]["avatar"]=av
+        pl[nm][cat]=place  # сохраняем место даже если 0 очков
 
     print("\n[Any%] Загрузка всех ранов...")
     any_runs=fetch_runs(ANYPCT_CAT)
     print(f"  Итого: {len(any_runs)} ранов")
 
-    for label,subval,restr in[("Solo Restricted",ANYPCT_RESTRICTED,True),
-                               ("Solo Unrestricted",ANYPCT_UNRESTRICTED,False)]:
+    for label,subval,restr in[("Any% Restricted",ANYPCT_RESTRICTED,True),
+                               ("Any% Unrestricted",ANYPCT_UNRESTRICTED,False)]:
         print(f"\n  [{label}]")
         for e in make_lb(any_runs, subval):
-            pts=pts_full(e["place"],restr); add(e["player_name"],e["avatar"],pts)
+            pts=pts_full(e["place"],restr)
+            add(e["player_name"],e["avatar"],pts,label,e["place"])
             if pts>0: print(f"    #{e['place']:>2}  {e['player_name']}  +{pts}")
 
     for lvl_name,lvl_id in IL_LEVELS:
@@ -140,10 +145,11 @@ def collect():
                 if nm not in best or t<best[nm][0]: best[nm]=(t,inf["avatar"])
         sorted_t=sorted([(nm,t,av) for nm,(t,av) in best.items()], key=lambda x:x[1])
         for e in competition_rank(sorted_t):
-            pts=pts_il(e["place"]); add(e["player_name"],e["avatar"],pts)
+            pts=pts_il(e["place"])
+            add(e["player_name"],e["avatar"],pts,lvl_name,e["place"])
             if pts>0: print(f"    #{e['place']:>2}  {e['player_name']}  +{pts}")
 
-    return dict(sc)
+    return dict(sc), dict(pl)
 
 def save_csv(data):
     os.makedirs(OUTPUT_DIR, exist_ok=True)
@@ -166,12 +172,17 @@ def save_metadata():
                    "game_id":GAME_ID}, f, indent=2)
     print("  ✓ metadata.json")
 
+def save_achievements(placements):
+    with open(os.path.join(OUTPUT_DIR,"achievements.json"),"w",encoding="utf-8") as f:
+        json.dump(placements, f, indent=2, ensure_ascii=False)
+    print("  ✓ achievements.json")
+
 def main():
     print("\n"+"="*60+"\n  REANIMAL Speedrun Points Fetcher  v10\n"+"="*60)
     try:
-        data=collect()
+        data, placements = collect()
         print("\n"+"="*60+"\n  Сохранение...\n"+"="*60)
-        save_csv(data); save_metadata()
+        save_csv(data); save_metadata(); save_achievements(placements)
         print("\n"+"="*60+"\n  ИТОГИ\n"+"="*60)
         for i,(nm,inf) in enumerate(
             sorted(data.items(),key=lambda x:x[1]["points"],reverse=True),1):

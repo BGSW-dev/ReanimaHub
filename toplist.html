@@ -273,7 +273,7 @@ function imgErr(el) { el.onerror=null; el.src=FALLBACK_AVATAR; }
         let tipTimeout;
 
         function showTip(e, player, points, avatar) {
-            const ach = achievements[player] || {};
+            const ach = (currentTab === "demo" ? demoAch : achievements)[player] || {};
             const achHtml = Object.entries(ach).length
                 ? Object.entries(ach).sort((a,b)=>a[1]-b[1]).map(([cat,place])=>`
                     <div class="tooltip-ach-item">

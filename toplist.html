@@ -212,7 +212,11 @@ function imgErr(el) { el.onerror=null; el.src=FALLBACK_AVATAR; }
             return `<table><thead><tr>${checkCol}<th>#</th><th></th><th>Nickname</th><th style="text-align:right;padding-right:25px">Points</th></tr></thead><tbody>${rows}</tbody></table>`;
         }
 
-        function buildCoopTable(data) {
+        function currentData() { return currentTab === "demo" ? demoData : mainGameData; }
+
+        function rebuildTable() {
+            document.getElementById("tableContainer").innerHTML = buildSoloTable(currentData());
+        }
             const rows = data.map(p => `
                 <tr>
                     <td class="rank-column ${rankClass(p.rank)}">${p.rank}</td>
@@ -265,7 +269,7 @@ function imgErr(el) { el.onerror=null; el.src=FALLBACK_AVATAR; }
         function closeCompare() {
             document.getElementById("compareOverlay").classList.remove("visible");
             selectedPlayers = [];
-            if (currentTab==="main") document.getElementById("tableContainer").innerHTML = buildSoloTable(mainGameData);
+            rebuildTable();
         }
 
         // ── Tooltip ──────────────────────────────────────────────────
@@ -384,7 +388,7 @@ function imgErr(el) { el.onerror=null; el.src=FALLBACK_AVATAR; }
         document.getElementById("compareToggle").addEventListener("click", ()=>{
             compareMode = !compareMode; selectedPlayers = [];
             document.getElementById("compareToggle").classList.toggle("active", compareMode);
-            document.getElementById("tableContainer").innerHTML = buildSoloTable(mainGameData);
+            rebuildTable();
         });
 
         document.getElementById("compareClose").addEventListener("click", closeCompare);

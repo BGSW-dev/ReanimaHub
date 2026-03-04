@@ -137,7 +137,7 @@
         let achievements = {};    // загружается из achievements.json
         let mainGameData = [];    // кеш
 
-        // Парсит CSV файл 
+        // Парсит CSV файл в массив объектов
         function parseCSV(text) {
             const lines = text.trim().split("\n").slice(1);
             return lines.map(line => {
@@ -151,7 +151,7 @@
             });
         }
 
-        // Форматирует место
+        // Форматирует место: 1 → WR, 2+ → Top-2
         function formatPlace(place) {
             return place === 1 ? "WR" : `Top-${place}`;
         }
@@ -208,7 +208,7 @@
             });
         }
 
-        // DEMO и COOP
+        // demo and coop
         const DEMO_DATA = [
             {rank:1, player:"WORK IN PROGRESS", points:150, avatar:""},
             {rank:2, player:"WORK IN PROGRESS", points:105, avatar:""},
@@ -229,19 +229,17 @@
             return "";
         }
 
-        function buildSoloTable(data) {
+        function buildSoloTable(data, allowCompare = true) {
             if (!data.length) return '<div class="loading">No data available</div>';
-            const checkCol = compareMode
-                ? `<th class="row-check-cell"></th>` : "";
+            const showCheck = allowCompare && compareMode;
+            const checkCol = showCheck ? `<th class="row-check-cell"></th>` : "";
             const rows = data.map(p => {
                 const isSelected = selectedPlayers.some(s => s.name === p.player);
-                const isDisabled = compareMode && selectedPlayers.length >= 2 && !isSelected;
-                const checkCell = compareMode ? `
+                const isDisabled = showCheck && selectedPlayers.length >= 2 && !isSelected;
+                const checkCell = showCheck ? `
                     <td class="row-check-cell">
                         <div class="row-checkbox ${isSelected?'checked':''} ${isDisabled?'disabled':''}"
                              data-player="${p.player}"
-                             data-points="${p.points}"
-                             data-avatar="${p.avatar || ''}"
                              onclick="togglePlayerSelect('${p.player.replace(/'/g,"\\'")}', ${p.points}, '${(p.avatar||'').replace(/'/g,"\\'")}', this)">
                             <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
                                 <path d="M1 4L3.5 6.5L9 1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
@@ -280,7 +278,7 @@
             </table>`;
         }
 
-        // Загружает данные
+        // Загружает данные 
         async function loadMainGame() {
             const container = document.getElementById("tableContainer");
             container.innerHTML = '<div class="loading">Loading...</div>';
@@ -306,11 +304,21 @@
             ["main","demo","coop"].forEach(t => {
                 document.getElementById(`tab-${t}`).classList.toggle("active", t === tab);
             });
+            // Compare только на Main Game
+            const ct = document.getElementById("compareToggle");
+            if (tab !== "main") {
+                compareMode = false;
+                selectedPlayers = [];
+                ct.classList.remove("active");
+                ct.style.display = "none";
+            } else {
+                ct.style.display = "flex";
+            }
             const container = document.getElementById("tableContainer");
             if (tab === "main") {
                 loadMainGame();
             } else if (tab === "demo") {
-                container.innerHTML = buildSoloTable(DEMO_DATA);
+                container.innerHTML = buildSoloTable(DEMO_DATA, false);
             } else {
                 container.innerHTML = buildCoopTable(COOP_DATA);
             }
@@ -333,7 +341,7 @@
 
         document.getElementById("compareClose").addEventListener("click", () => {
             closeCompareModal();
-            // Сброс
+            // Сбрасываем выбор после закрытия
             selectedPlayers = [];
             if (currentTab === "main") {
                 document.getElementById("tableContainer").innerHTML = buildSoloTable(mainGameData);

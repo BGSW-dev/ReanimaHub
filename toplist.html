@@ -155,15 +155,14 @@ function imgErr(el) { el.onerror=null; el.src=FALLBACK_AVATAR; }
         let selectedPlayers = [];
         let achievements = {};
         let mainGameData = [];
+        let demoData     = [];
+        let demoAch      = {};
         let dataLoaded   = false;
+        let demoLoaded   = false;
         let isLoading    = false;
+        let isDemoLoading= false;
 
         // ── Demo / Coop data ─────────────────────────────────────────
-        const DEMO_DATA = [
-            {rank:1,player:"WORK IN PROGRESS",points:150,avatar:""},
-            {rank:2,player:"WORK IN PROGRESS",points:105,avatar:""},
-            {rank:3,player:"WORK IN PROGRESS",points:75, avatar:""},
-        ];
         const COOP_DATA = [
             {rank:1,players:["WORK IN PROGRESS"],points:150,avatars:["",""]},
             {rank:2,players:["WORK IN PROGRESS"],points:105,avatars:["",""]},
@@ -311,7 +310,27 @@ function imgErr(el) { el.onerror=null; el.src=FALLBACK_AVATAR; }
         tc.addEventListener("mousemove", e => { if (tooltipEl.classList.contains("visible")) posTip(e); });
         tc.addEventListener("mouseout",  e => { if (e.target.closest("tr[data-player]")) { clearTimeout(tipTimeout); tooltipEl.classList.remove("visible"); } });
 
-        // ── Data loading ─────────────────────────────────────────────
+        async function loadDemo() {
+            if (isDemoLoading) return;
+            isDemoLoading = true;
+            const container = document.getElementById("tableContainer");
+            container.innerHTML = '<div class="loading">Loading...</div>';
+            try {
+                const [csvText, ach] = await Promise.all([
+                    fetch(`${BASE}/demo.csv`).then(r=>r.text()),
+                    fetch(`${BASE}/demo_achievements.json`).then(r=>r.json()).catch(()=>({}))
+                ]);
+                demoData   = parseCSV(csvText);
+                demoAch    = ach;
+                demoLoaded = true;
+                container.innerHTML = buildSoloTable(demoData, false);
+            } catch(e) {
+                console.error("Demo load error:", e);
+                container.innerHTML = '<div class="loading">⚠️ Failed to load data.</div>';
+            } finally {
+                isDemoLoading = false;
+            }
+        }
         async function loadMainGame() {
             if (isLoading) return;
             isLoading = true;
@@ -354,7 +373,8 @@ function imgErr(el) { el.onerror=null; el.src=FALLBACK_AVATAR; }
                 if (dataLoaded) container.innerHTML = buildSoloTable(mainGameData);
                 else loadMainGame();
             } else if (tab === "demo") {
-                container.innerHTML = buildSoloTable(DEMO_DATA, false);
+                if (demoLoaded) container.innerHTML = buildSoloTable(demoData, false);
+                else loadDemo();
             } else {
                 container.innerHTML = buildCoopTable(COOP_DATA);
             }

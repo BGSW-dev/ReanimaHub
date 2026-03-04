@@ -238,7 +238,7 @@
             });
         }
 
-        // ⬇️ DEMO и COOP — заполни своими данными когда будет готово
+        // DEMO и COOP 
         const DEMO_DATA = [
             {rank:1, player:"WORK IN PROGRESS", points:150, avatar:""},
             {rank:2, player:"WORK IN PROGRESS", points:105, avatar:""},
@@ -404,7 +404,7 @@
             clearTimeout(tooltipTimeout);
             tooltipTimeout = setTimeout(() => {
                 showTooltip(e, row.dataset.player, row.dataset.points, row.dataset.avatar);
-            }, 200);
+            }, 350);
         });
         document.getElementById("tableContainer").addEventListener("mousemove", e => {
             if (tooltipEl.classList.contains("visible")) positionTooltip(e);

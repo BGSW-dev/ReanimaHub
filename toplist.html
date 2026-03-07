@@ -45,8 +45,6 @@
         .table-container::-webkit-scrollbar-track{background:#0a0f15;}
         .table-container::-webkit-scrollbar-thumb{background:#263544;border-radius:10px;}
         .table-container::-webkit-scrollbar-thumb:hover{background:#32475b;}
-
-        /* Tooltip */
         .tooltip{position:fixed;z-index:50;pointer-events:none;background:#0b1017;border:1px solid #2a3b4e;border-radius:12px;padding:12px 16px;min-width:200px;max-width:260px;box-shadow:0 8px 24px rgba(0,0,0,.7);opacity:0;transform:translateY(6px);transition:opacity .15s ease,transform .15s ease;}
         .tooltip.visible{opacity:1;transform:translateY(0);}
         .tooltip-header{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
@@ -58,23 +56,17 @@
         .tooltip-ach-item{display:flex;justify-content:space-between;font-size:.82rem;padding:3px 0;}
         .tooltip-ach-cat{color:#c0ccd8;} .tooltip-ach-place{font-weight:600;color:#4a8abf;} .tooltip-ach-place.wr{color:#ffd966;}
         .tooltip-empty{font-size:.82rem;color:#6a7a8c;}
-
-        /* Compare button */
         .compare-toggle{display:flex;align-items:center;gap:8px;cursor:pointer;user-select:none;color:#8b98a9;font-size:.9rem;transition:color .2s;}
         .compare-toggle:hover{color:#fff;}
         .compare-box{width:18px;height:18px;border:2px solid #2a3b4e;border-radius:4px;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0;}
         .compare-toggle.active .compare-box{background:#1e3b5c;border-color:#4a8abf;}
         .compare-toggle.active{color:#b7c9e0;}
         .compare-box svg{display:none;} .compare-toggle.active .compare-box svg{display:block;}
-
-        /* Row checkboxes */
         .row-check-cell{width:36px;padding-left:12px !important;}
         .row-checkbox{width:18px;height:18px;border:2px solid #2a3b4e;border-radius:4px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0;}
         .row-checkbox.checked{background:#1e3b5c;border-color:#4a8abf;}
         .row-checkbox svg{display:none;} .row-checkbox.checked svg{display:block;}
         .row-checkbox.disabled{opacity:.3;cursor:not-allowed;}
-
-        /* Compare modal */
         .compare-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:100;align-items:center;justify-content:center;backdrop-filter:blur(4px);}
         .compare-overlay.visible{display:flex;}
         .compare-modal{background:#0f1217;border:1px solid #1f2b36;border-radius:20px;padding:30px;max-width:700px;width:90%;max-height:90vh;overflow-y:auto;position:relative;}
@@ -141,22 +133,12 @@
         const FALLBACK_AVATAR = "https://www.speedrun.com/images/user.png";
         function imgErr(el) { el.onerror=null; el.src=FALLBACK_AVATAR; }
 
-        // ── State ────────────────────────────────────────────────────
-        let currentTab    = "main";
-        let compareMode   = false;
-        let selectedPlayers = [];   // [{name, points, avatar}]
+        let currentTab      = "main";
+        let compareMode     = false;
+        let selectedPlayers = [];
+        let mainData=[], mainAch={}, mainLoaded=false, mainLoading=false;
+        let demoData=[], demoAch={}, demoLoaded=false, demoLoading=false;
 
-        let mainData      = [];
-        let mainAch       = {};
-        let mainLoaded    = false;
-        let mainLoading   = false;
-
-        let demoData      = [];
-        let demoAch       = {};
-        let demoLoaded    = false;
-        let demoLoading   = false;
-
-        // ── Helpers ──────────────────────────────────────────────────
         function parseCSV(text) {
             return text.trim().split("\n").slice(1).map(line => {
                 const c = line.split(",");
@@ -168,14 +150,13 @@
         function formatPlace(p) { return p===1?"WR":"Top-"+p; }
         function currentAch() { return currentTab==="demo" ? demoAch : mainAch; }
 
-        // ── Build table ──────────────────────────────────────────────
         function buildTable(data) {
             if (!data.length) return '<div class="loading">No data available</div>';
             const showCheck = compareMode;
             const checkCol  = showCheck ? '<th class="row-check-cell"></th>' : "";
             const rows = data.map(p => {
-                const isSel = selectedPlayers.some(s => s.name === p.player);
-                const isDis = showCheck && selectedPlayers.length >= 2 && !isSel;
+                const isSel = selectedPlayers.some(s => s.name===p.player);
+                const isDis = showCheck && selectedPlayers.length>=2 && !isSel;
                 const chk   = showCheck ? `
                     <td class="row-check-cell">
                         <div class="row-checkbox ${isSel?"checked":""} ${isDis?"disabled":""}"
@@ -197,11 +178,9 @@
         }
 
         function renderCurrent() {
-            const data = currentTab==="demo" ? demoData : mainData;
-            document.getElementById("tableContainer").innerHTML = buildTable(data);
+            document.getElementById("tableContainer").innerHTML = buildTable(currentTab==="demo" ? demoData : mainData);
         }
 
-        // ── Compare ──────────────────────────────────────────────────
         function buildCompareCard(p) {
             const ach = currentAch()[p.name] || {};
             const achHtml = Object.entries(ach).length
@@ -221,39 +200,35 @@
 
         function toggleSelect(name, points, avatar, el) {
             if (el.classList.contains("disabled")) return;
-            const idx = selectedPlayers.findIndex(p => p.name===name);
+            const idx = selectedPlayers.findIndex(p=>p.name===name);
             if (idx !== -1) {
-                selectedPlayers.splice(idx, 1);
+                selectedPlayers.splice(idx,1);
                 el.classList.remove("checked");
             } else {
-                if (selectedPlayers.length >= 2) return;
-                selectedPlayers.push({name, points, avatar});
+                if (selectedPlayers.length>=2) return;
+                selectedPlayers.push({name,points,avatar});
                 el.classList.add("checked");
-                if (selectedPlayers.length === 2) {
+                if (selectedPlayers.length===2) {
                     document.getElementById("compareCards").innerHTML = selectedPlayers.map(buildCompareCard).join("");
                     document.getElementById("compareOverlay").classList.add("visible");
                 }
             }
-            // обновляем disabled на всех чекбоксах
             document.querySelectorAll(".row-checkbox").forEach(cb => {
                 const row = cb.closest("tr");
                 if (!row) return;
-                const isSel = selectedPlayers.some(p => p.name===row.dataset.player);
+                const isSel = selectedPlayers.some(p=>p.name===row.dataset.player);
                 cb.classList.toggle("disabled", selectedPlayers.length>=2 && !isSel);
             });
         }
 
         function closeCompare() {
             document.getElementById("compareOverlay").classList.remove("visible");
-            // полностью сбрасываем выбор и перерисовываем таблицу
             selectedPlayers = [];
             renderCurrent();
         }
 
-        // ── Tooltip ──────────────────────────────────────────────────
         const tooltipEl = document.getElementById("tooltip");
         let tipTimeout;
-
         function showTip(e, player, points, avatar) {
             const ach = currentAch()[player] || {};
             const achHtml = Object.entries(ach).length
@@ -273,111 +248,81 @@
             posTip(e);
             tooltipEl.classList.add("visible");
         }
-
         function posTip(e) {
-            const pad=16, tw=260, th=tooltipEl.offsetHeight;
-            let x=e.clientX+pad, y=e.clientY+pad;
-            if (x+tw>window.innerWidth)  x=e.clientX-tw-pad;
-            if (y+th>window.innerHeight) y=e.clientY-th-pad;
+            const pad=16,tw=260,th=tooltipEl.offsetHeight;
+            let x=e.clientX+pad,y=e.clientY+pad;
+            if(x+tw>window.innerWidth) x=e.clientX-tw-pad;
+            if(y+th>window.innerHeight) y=e.clientY-th-pad;
             tooltipEl.style.left=x+"px"; tooltipEl.style.top=y+"px";
         }
-
         const tc = document.getElementById("tableContainer");
-        tc.addEventListener("mouseover", e => {
-            const row = e.target.closest("tr[data-player]");
-            if (!row) return;
+        tc.addEventListener("mouseover", e=>{
+            const row=e.target.closest("tr[data-player]");
+            if(!row) return;
             clearTimeout(tipTimeout);
-            tipTimeout = setTimeout(()=>showTip(e,row.dataset.player,row.dataset.points,row.dataset.avatar), 350);
+            tipTimeout=setTimeout(()=>showTip(e,row.dataset.player,row.dataset.points,row.dataset.avatar),350);
         });
-        tc.addEventListener("mousemove", e => { if (tooltipEl.classList.contains("visible")) posTip(e); });
-        tc.addEventListener("mouseout",  e => { if (e.target.closest("tr[data-player]")) { clearTimeout(tipTimeout); tooltipEl.classList.remove("visible"); }});
+        tc.addEventListener("mousemove", e=>{ if(tooltipEl.classList.contains("visible")) posTip(e); });
+        tc.addEventListener("mouseout",  e=>{ if(e.target.closest("tr[data-player]")){ clearTimeout(tipTimeout); tooltipEl.classList.remove("visible"); }});
 
-        // ── Data loading ─────────────────────────────────────────────
         async function loadMain() {
-            if (mainLoading) return;
-            mainLoading = true;
-            const container = document.getElementById("tableContainer");
-            container.innerHTML = '<div class="loading">Loading...</div>';
+            if(mainLoading) return;
+            mainLoading=true;
+            document.getElementById("tableContainer").innerHTML='<div class="loading">Loading...</div>';
             try {
-                const [csvText, meta, ach] = await Promise.all([
+                const [csvText,meta,ach]=await Promise.all([
                     fetch(`${BASE}/main_game.csv`).then(r=>r.text()),
                     fetch(`${BASE}/metadata.json`).then(r=>r.json()),
                     fetch(`${BASE}/achievements.json`).then(r=>r.json()).catch(()=>({}))
                 ]);
-                mainData   = parseCSV(csvText);
-                mainAch    = ach;
-                mainLoaded = true;
-                const upd  = meta.last_updated;
-                if (upd) document.getElementById("lastUpdate").textContent = upd;
-                container.innerHTML = buildTable(mainData);
+                mainData=parseCSV(csvText); mainAch=ach; mainLoaded=true;
+                if(meta.last_updated) document.getElementById("lastUpdate").textContent=meta.last_updated;
+                document.getElementById("tableContainer").innerHTML=buildTable(mainData);
             } catch(e) {
-                console.error("Main load error:", e);
-                container.innerHTML = '<div class="loading">⚠️ Failed to load data.</div>';
-            } finally {
-                mainLoading = false;
-            }
+                console.error("Main load error:",e);
+                document.getElementById("tableContainer").innerHTML='<div class="loading">⚠️ Failed to load data.</div>';
+            } finally { mainLoading=false; }
         }
 
         async function loadDemo() {
-            if (demoLoading) return;
-            demoLoading = true;
-            const container = document.getElementById("tableContainer");
-            container.innerHTML = '<div class="loading">Loading...</div>';
+            if(demoLoading) return;
+            demoLoading=true;
+            document.getElementById("tableContainer").innerHTML='<div class="loading">Loading...</div>';
             try {
-                const [csvText, ach] = await Promise.all([
+                const [csvText,ach]=await Promise.all([
                     fetch(`${BASE}/demo.csv`).then(r=>r.text()),
                     fetch(`${BASE}/demo_achievements.json`).then(r=>r.json()).catch(()=>({}))
                 ]);
-                demoData   = parseCSV(csvText);
-                demoAch    = ach;
-                demoLoaded = true;
-                container.innerHTML = buildTable(demoData);
+                demoData=parseCSV(csvText); demoAch=ach; demoLoaded=true;
+                document.getElementById("tableContainer").innerHTML=buildTable(demoData);
             } catch(e) {
-                console.error("Demo load error:", e);
-                container.innerHTML = '<div class="loading">⚠️ Failed to load data.</div>';
-            } finally {
-                demoLoading = false;
-            }
+                console.error("Demo load error:",e);
+                document.getElementById("tableContainer").innerHTML='<div class="loading">⚠️ Failed to load data.</div>';
+            } finally { demoLoading=false; }
         }
 
-        // ── Tabs ─────────────────────────────────────────────────────
         function showTab(tab) {
-            if (currentTab === tab) return;
-            currentTab = tab;
-            compareMode = false;
-            selectedPlayers = [];
+            if(currentTab===tab) return;
+            currentTab=tab; compareMode=false; selectedPlayers=[];
             document.getElementById("compareToggle").classList.remove("active");
-
-            ["main","demo"].forEach(t =>
-                document.getElementById(`tab-${t}`).classList.toggle("active", t===tab));
-
-            if (tab === "main") {
-                if (mainLoaded) renderCurrent();
-                else loadMain();
-            } else {
-                if (demoLoaded) renderCurrent();
-                else loadDemo();
-            }
+            ["main","demo"].forEach(t=>document.getElementById(`tab-${t}`).classList.toggle("active",t===tab));
+            if(tab==="main") { if(mainLoaded) renderCurrent(); else loadMain(); }
+            else             { if(demoLoaded) renderCurrent(); else loadDemo(); }
         }
 
-        // ── Events ───────────────────────────────────────────────────
-        document.getElementById("tab-main").addEventListener("click", ()=>showTab("main"));
-        document.getElementById("tab-demo").addEventListener("click", ()=>showTab("demo"));
-
-        document.getElementById("compareToggle").addEventListener("click", ()=>{
-            compareMode = !compareMode;
-            selectedPlayers = [];
-            document.getElementById("compareToggle").classList.toggle("active", compareMode);
+        document.getElementById("tab-main").addEventListener("click",()=>showTab("main"));
+        document.getElementById("tab-demo").addEventListener("click",()=>showTab("demo"));
+        document.getElementById("compareToggle").addEventListener("click",()=>{
+            compareMode=!compareMode; selectedPlayers=[];
+            document.getElementById("compareToggle").classList.toggle("active",compareMode);
             renderCurrent();
         });
+        document.getElementById("compareClose").addEventListener("click",closeCompare);
+        document.getElementById("compareOverlay").addEventListener("click",e=>{ if(e.target===e.currentTarget) closeCompare(); });
 
-        document.getElementById("compareClose").addEventListener("click", closeCompare);
-        document.getElementById("compareOverlay").addEventListener("click", e=>{
-            if (e.target===e.currentTarget) closeCompare();
-        });
-
-        // Старт
         loadMain();
+    </script>
+
     <script data-goatcounter="https://rean.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>

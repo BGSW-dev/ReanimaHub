@@ -8,7 +8,7 @@
     "Chapter 4": 1,
     "Chapter 5": 1,
     "Chapter 6": 2,
-    "Chapter 7": 1,
+    "Chapter 7": 2,
     "Chapter 8": 1,
     "Chapter 9": 1
   },
@@ -55,7 +55,7 @@
     "Any% Restricted": 11,
     "Any% Unrestricted": 3,
     "Chapter 2": 2,
-    "Chapter 7": 3
+    "Chapter 7": 1
   },
   "Leoninrus_Emligan": {
     "Any% Restricted": 12
@@ -89,6 +89,6 @@
     "Chapter 6": 3
   },
   "Qurin": {
-    "Chapter 7": 1
+    "Chapter 7": 2
   }
 }

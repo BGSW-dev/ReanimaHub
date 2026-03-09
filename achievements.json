@@ -12,11 +12,16 @@
     "Chapter 8": 2,
     "Chapter 9": 1
   },
+  "iLL_Pazzo": {
+    "Any% Restricted": 2,
+    "Chapter 2": 3,
+    "Chapter 9": 2
+  },
   "M36z": {
-    "Any% Restricted": 2
+    "Any% Restricted": 3
   },
   "PrimePug": {
-    "Any% Restricted": 3,
+    "Any% Restricted": 4,
     "Chapter 1": 2,
     "Chapter 2": 3,
     "Chapter 3": 2,
@@ -27,61 +32,57 @@
     "Chapter 9": 2
   },
   "XiwiX": {
-    "Any% Restricted": 4
+    "Any% Restricted": 5
   },
   "Ghhhosto": {
-    "Any% Restricted": 5,
+    "Any% Restricted": 6,
     "Any% Unrestricted": 3,
     "Chapter 2": 2,
     "Chapter 7": 1,
     "Chapter 8": 1
   },
   "MythicCheese": {
-    "Any% Restricted": 6,
+    "Any% Restricted": 7,
     "Any% Unrestricted": 2
   },
   "hadesriah": {
-    "Any% Restricted": 7
+    "Any% Restricted": 8
   },
   "LpBanoit": {
-    "Any% Restricted": 8,
+    "Any% Restricted": 9,
     "Chapter 7": 4,
     "Chapter 8": 4
   },
   "uLeFTx": {
-    "Any% Restricted": 9,
+    "Any% Restricted": 10,
     "Chapter 2": 5
   },
   "Hrimgrimnir": {
-    "Any% Restricted": 10
-  },
-  "Tots": {
     "Any% Restricted": 11
   },
-  "speedyalexzo": {
+  "Tots": {
     "Any% Restricted": 12
   },
-  "Leoninrus_Emligan": {
+  "speedyalexzo": {
     "Any% Restricted": 13
   },
-  "game_fuchs": {
+  "Leoninrus_Emligan": {
     "Any% Restricted": 14
   },
-  "Notnarista": {
+  "game_fuchs": {
     "Any% Restricted": 15
   },
-  "Sans128": {
+  "Notnarista": {
     "Any% Restricted": 16
+  },
+  "Sans128": {
+    "Any% Restricted": 17
   },
   "Ravirixx": {
     "Any% Unrestricted": 4
   },
   "vavsdiy": {
     "Any% Unrestricted": 5
-  },
-  "iLL_Pazzo": {
-    "Chapter 2": 3,
-    "Chapter 9": 2
   },
   "ArcticMoosee": {
     "Chapter 4": 2

@@ -9,7 +9,7 @@
     "Chapter 5": 1,
     "Chapter 6": 2,
     "Chapter 7": 2,
-    "Chapter 8": 1,
+    "Chapter 8": 2,
     "Chapter 9": 1
   },
   "iLL_Pazzo": {
@@ -39,7 +39,7 @@
     "Any% Unrestricted": 3,
     "Chapter 2": 2,
     "Chapter 7": 1,
-    "Chapter 8": 2
+    "Chapter 8": 1
   },
   "MythicCheese": {
     "Any% Restricted": 7,
@@ -69,14 +69,17 @@
   "Leoninrus_Emligan": {
     "Any% Restricted": 14
   },
-  "game_fuchs": {
+  "enbyzee": {
     "Any% Restricted": 15
   },
-  "Notnarista": {
+  "game_fuchs": {
     "Any% Restricted": 16
   },
-  "Sans128": {
+  "Notnarista": {
     "Any% Restricted": 17
+  },
+  "Sans128": {
+    "Any% Restricted": 18
   },
   "Ravirixx": {
     "Any% Unrestricted": 4

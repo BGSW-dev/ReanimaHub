@@ -3,7 +3,7 @@ name: Fetch Speedrun Data
 on:
   schedule:
     - cron: '0 */3 * * *' 
-  workflow_dispatch:         
+  workflow_dispatch:          
 
 jobs:
   fetch:
@@ -12,9 +12,9 @@ jobs:
       contents: write
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
 

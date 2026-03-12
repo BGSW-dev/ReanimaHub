@@ -8,8 +8,8 @@
     "Chapter 4": 1,
     "Chapter 5": 1,
     "Chapter 6": 1,
-    "Chapter 7": 2,
-    "Chapter 8": 2,
+    "Chapter 7": 1,
+    "Chapter 8": 1,
     "Chapter 9": 1
   },
   "iLL_Pazzo": {
@@ -38,8 +38,8 @@
     "Any% Restricted": 6,
     "Any% Unrestricted": 3,
     "Chapter 2": 2,
-    "Chapter 7": 1,
-    "Chapter 8": 1
+    "Chapter 7": 2,
+    "Chapter 8": 2
   },
   "MythicCheese": {
     "Any% Restricted": 7,
@@ -76,14 +76,17 @@
   "enbyzee": {
     "Any% Restricted": 16
   },
-  "game_fuchs": {
+  "bitrot": {
     "Any% Restricted": 17
   },
-  "Notnarista": {
+  "game_fuchs": {
     "Any% Restricted": 18
   },
-  "Sans128": {
+  "Notnarista": {
     "Any% Restricted": 19
+  },
+  "Sans128": {
+    "Any% Restricted": 20
   },
   "Ravirixx": {
     "Any% Unrestricted": 4

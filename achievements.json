@@ -7,7 +7,7 @@
     "Chapter 3": 1,
     "Chapter 4": 1,
     "Chapter 5": 1,
-    "Chapter 6": 1,
+    "Chapter 6": 2,
     "Chapter 7": 1,
     "Chapter 8": 1,
     "Chapter 9": 1
@@ -15,13 +15,13 @@
   "M36z": {
     "Any% Restricted": 2
   },
-  "PandaPlayer": {
-    "Any% Restricted": 3
-  },
   "iLL_Pazzo": {
-    "Any% Restricted": 4,
+    "Any% Restricted": 3,
     "Chapter 2": 3,
     "Chapter 9": 2
+  },
+  "PandaPlayer": {
+    "Any% Restricted": 4
   },
   "PrimePug": {
     "Any% Restricted": 5,
@@ -67,13 +67,13 @@
     "Any% Restricted": 13,
     "Chapter 8": 3
   },
-  "speedyalexzo": {
+  "t_d_pagey": {
     "Any% Restricted": 14
   },
-  "Leoninrus_Emligan": {
+  "speedyalexzo": {
     "Any% Restricted": 15
   },
-  "t_d_pagey": {
+  "Leoninrus_Emligan": {
     "Any% Restricted": 16
   },
   "enbyzee": {
@@ -101,7 +101,7 @@
     "Chapter 4": 2
   },
   "zDebt": {
-    "Chapter 6": 2
+    "Chapter 6": 1
   },
   "Thecatinthelemon": {
     "Chapter 6": 3

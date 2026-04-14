@@ -1,6 +1,9 @@
 {
+  "M36z": {
+    "Any% Restricted": 1
+  },
   "JustRezzie": {
-    "Any% Restricted": 1,
+    "Any% Restricted": 2,
     "Any% Unrestricted": 1,
     "Chapter 1": 1,
     "Chapter 2": 1,
@@ -11,9 +14,6 @@
     "Chapter 7": 1,
     "Chapter 8": 1,
     "Chapter 9": 1
-  },
-  "M36z": {
-    "Any% Restricted": 2
   },
   "iLL_Pazzo": {
     "Any% Restricted": 3,

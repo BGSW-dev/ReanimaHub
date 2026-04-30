@@ -1,7 +1,7 @@
 {
   "JustRezzie": {
     "Any% Restricted": 1,
-    "Any% Unrestricted": 1,
+    "Any% Unrestricted": 2,
     "Chapter 1": 1,
     "Chapter 2": 1,
     "Chapter 3": 1,
@@ -39,7 +39,7 @@
   },
   "Ghhhosto": {
     "Any% Restricted": 7,
-    "Any% Unrestricted": 3,
+    "Any% Unrestricted": 4,
     "Chapter 2": 2,
     "Chapter 7": 2,
     "Chapter 8": 2
@@ -49,7 +49,7 @@
   },
   "MythicCheese": {
     "Any% Restricted": 9,
-    "Any% Unrestricted": 2
+    "Any% Unrestricted": 3
   },
   "hadesriah": {
     "Any% Restricted": 10
@@ -87,7 +87,7 @@
   },
   "EmilyTheWorried": {
     "Any% Restricted": 20,
-    "Any% Unrestricted": 6
+    "Any% Unrestricted": 7
   },
   "Notnarista": {
     "Any% Restricted": 21
@@ -98,11 +98,14 @@
   "kyuten0910": {
     "Any% Restricted": 23
   },
+  "Cloud7777": {
+    "Any% Unrestricted": 1
+  },
   "Ravirixx": {
-    "Any% Unrestricted": 4
+    "Any% Unrestricted": 5
   },
   "vavsdiy": {
-    "Any% Unrestricted": 5
+    "Any% Unrestricted": 6
   },
   "ArcticMoosee": {
     "Chapter 4": 2

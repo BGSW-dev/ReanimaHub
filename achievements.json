@@ -31,7 +31,7 @@
     "Chapter 4": 4,
     "Chapter 5": 2,
     "Chapter 7": 5,
-    "Chapter 8": 4,
+    "Chapter 8": 5,
     "Chapter 9": 3
   },
   "XiwiX": {
@@ -42,7 +42,7 @@
     "Any% Unrestricted": 4,
     "Chapter 2": 2,
     "Chapter 7": 2,
-    "Chapter 8": 2
+    "Chapter 8": 3
   },
   "t_d_pagey": {
     "Any% Restricted": 8
@@ -60,7 +60,7 @@
   "LpBanoit": {
     "Any% Restricted": 12,
     "Chapter 7": 4,
-    "Chapter 8": 5
+    "Chapter 8": 6
   },
   "uLeFTx": {
     "Any% Restricted": 13,
@@ -71,7 +71,7 @@
   },
   "Tots": {
     "Any% Restricted": 15,
-    "Chapter 8": 3
+    "Chapter 8": 4
   },
   "speedyalexzo": {
     "Any% Restricted": 16
@@ -120,6 +120,7 @@
     "Chapter 6": 3
   },
   "Qurin": {
-    "Chapter 7": 3
+    "Chapter 7": 3,
+    "Chapter 8": 2
   }
 }
